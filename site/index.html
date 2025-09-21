@@ -4,15 +4,648 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ceylon E‑Bike Tours | Sri Lanka E‑Bike Adventures</title>
+    <meta name="description" content="Ride Sri Lanka by e‑bike. Small‑group eco tours through heritage cities, tea country and tropical coasts. Book safe, guided adventures." />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+      window.tailwind = window.tailwind || {};
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gunmetal: '#0A2E36',
+              limeflash: '#63F800',
+              emerald: '#14CC60'
+            },
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            },
+            boxShadow: {
+              soft: '0 10px 30px rgba(10,46,54,.15)'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      .nav-scrolled { backdrop-filter: saturate(140%) blur(6px); }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
+      @keyframes growY { from { transform: scaleY(0);} to { transform: scaleY(1);} }
+      @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
+      @keyframes growX { from { transform: scaleX(0);} to { transform: scaleX(1);} }
+      .fade-up { animation: fadeUp 800ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+      .grow-line { transform-origin: bottom; animation: growY 1000ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+      .fade-in { animation: fadeIn 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+      .grow-x { transform-origin: center; animation: growX 1000ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+      /* Capacity bar animation */
+      .progress-fill { transition: width 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+      /* Masonry gallery for Grand Tour (gapless vertical flow) */
+      .masonry { column-count: 2; column-gap: 12px; }
+      @media (min-width: 1024px) { .masonry { column-count: 2; } }
+      .masonry-item { break-inside: avoid; -webkit-column-break-inside: avoid; page-break-inside: avoid; display: block; overflow: hidden; border-radius: 0.75rem; margin-bottom: 12px; }
+      .masonry-item img { display: block; width: 100%; height: auto; }
+      @media (prefers-reduced-motion: reduce) {
+        .fade-up, .grow-line, .fade-in, .grow-x { animation: none !important; }
+      }
+      /* Currency select readability (desktop + mobile) */
+      .currency-select { color: #fff; background-color: rgba(255,255,255,0.10); }
+      .currency-select option { color: #0A2E36; background-color: #ffffff; }
+      :root { --button-green: #5FEC00; }
+      .tab-active-green { background-color: var(--button-green) !important; color: #0A2E36 !important; border-color: var(--button-green) !important; }
+      #interestTabs .bg-gray-50 { background-color: rgba(255,255,255,0.08) !important; }
+      #interestTabs .text-gunmetal { color: rgba(255,255,255,0.9) !important; }
+      #interestTabs .border-gray-200 { border-color: rgba(255,255,255,0.15) !important; }
+      #interestTabs button { border-radius: 0.5rem; }
+      /* Ensure Koalendar link widgets never show underline */
+      a[data-koalendar-widget] { text-decoration: none !important; }
+      a[data-koalendar-widget]:hover, a[data-koalendar-widget]:focus { text-decoration: none !important; }
+      /* Simple crossfade gallery for e‑bike image */
+      .fade-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 600ms ease; }
+      .fade-slide.active { opacity: 1; }
+    </style>
   </head>
-  <body class="antialiased text-[#0A2E36] bg-white">
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 text-center">
-      <h1 class="text-3xl sm:text-4xl font-extrabold">Ceylon E‑Bike Tours</h1>
-      <p class="mt-3 text-[#0A2E36]/70">The site is publishing. Full content will be uploaded shortly.</p>
+  <body class="antialiased text-gunmetal bg-white">
+    <!-- Header / Navigation -->
+    <header id="siteHeader" class="fixed inset-x-0 top-0 z-50 transition-all">
+      <div class="bg-gunmetal/90 text-white shadow-soft">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between py-4 lg:py-5">
+           <a href="index.html" class="pl-2" aria-label="Home"></a>
+
+          <nav class="hidden md:flex items-center gap-8">
+            <a href="index.html" class="nav-link text-white/90 hover:text-white transition">Home</a>
+            <a href="tours.html" class="nav-link text-white/90 hover:text-white transition">Tours</a>
+            <a href="grand-tour-2025.html" class="nav-link text-white/90 hover:text-white transition">Grand Tour ’25</a>
+            <a href="about.html" class="nav-link text-white/90 hover:text-white transition">About</a>
+            <a href="gallery.html" class="nav-link text-white/90 hover:text-white transition">Gallery</a>
+            <a href="faq.html" class="nav-link text-white/90 hover:text-white transition">FAQ</a>
+            <a href="contact.html" class="nav-link text-white/90 hover:text-white transition">Contact</a>
+          </nav>
+
+          <div class="hidden md:flex items-center gap-3 pr-2">
+            <label for="currencySelect" class="sr-only">Currency</label>
+            <select id="currencySelect" class="currency-select rounded-md border border-white/20 bg-white/10 px-2 py-1 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald/60">
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR €</option>
+              <option value="GBP">GBP £</option>
+              <option value="BTC">Bitcoin ₿</option>
+            </select>
+            <a href="book.html" class="inline-flex items-center rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-emerald/60">Book Now</a>
+          </div>
+
+          <button id="menuToggle" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald/60 mr-2" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Sheet -->
+      <div id="mobileNav" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] translate-x-full bg-gunmetal text-white shadow-soft transition-transform duration-300">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+          <span class="font-semibold">Menu</span>
+          <button id="menuClose" class="p-2 rounded-lg hover:bg-white/10" aria-label="Close menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <nav class="flex flex-col gap-1 p-3">
+          <a href="index.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Home</a>
+          <a href="tours.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Tours</a>
+          <a href="grand-tour-2025.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Grand Tour ’25</a>
+          <a href="about.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">About</a>
+          <a href="gallery.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Gallery</a>
+          <a href="faq.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">FAQ</a>
+          <a href="contact.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Contact</a>
+          <div class="mt-2 px-3">
+            <label for="currencySelectMobile" class="text-xs text-white/80">Currency</label>
+            <select id="currencySelectMobile" class="currency-select mt-1 w-full rounded-md border border-white/20 bg-white/10 px-2 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald/60">
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR €</option>
+              <option value="GBP">GBP £</option>
+              <option value="BTC">Bitcoin ₿</option>
+            </select>
+          </div>
+          <a href="book.html" class="mt-2 inline-flex items-center justify-center rounded-lg bg-[#5FEC00] px-4 py-3 text-gunmetal font-semibold">Book Now</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="pt-[92px] md:pt-[104px]">
+      <!-- Hero -->
+      <section class="relative isolate overflow-hidden bg-white min-h-[calc(100vh-92px)] md:min-h-[calc(100vh-104px)]">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid items-center gap-10 py-16 md:grid-cols-[38%_62%] md:py-24 pb-24 md:pb-28">
+            <div class="md:order-2">
+              <div class="mt-4 flex gap-3">
+                <div class="pl-3 border-l-2 border-emerald">
+                  <h1 class="text-[2rem] sm:text-[2.75rem] font-extrabold tracking-tight text-gunmetal uppercase leading-tight">Ebike Tours in Sri Lanka</h1>
+                  <p class="mt-2 text-sm sm:text-base font-semibold text-gray-600 tracking-wide leading-relaxed">Bridging technology and nature</p>
+                  <p class="mt-4 text-base text-gunmetal/75 max-w-prose">E-bikes allow effortless rides through ancient cities, tea‑covered hills and palm‑lined coasts. Select a private tour or join our year end group tour, 17 Days of all inclusive fun and ride with riders from around the world!<br><br>Reserve your tour for absolutly free, pay when you arrive! We now accept Bitcoin!</p>
+                </div>
+              </div>
+              
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#featured-tours" class="rounded-lg bg-gunmetal px-5 py-3 text-white font-semibold hover:bg-gunmetal/90">Day Tours</a>
+                <a href="grand-tour-2025.html" class="inline-flex items-center rounded-lg bg-[#5FEC00] px-5 py-3 text-gunmetal font-semibold hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-emerald/60">Grand Tour</a>
+                <a href="#tailor" class="inline-flex items-center rounded-lg border border-gunmetal/15 bg-white px-5 py-3 font-semibold hover:bg-gunmetal/5">Custom Tour</a>
+              </div>
+              
+              
+            </div>
+            <div class="md:order-1">
+              <div class="relative h-[360px] md:h-[400px] md:w-[76%] md:ml-8">
+                <img src="assets/Images/hero2.png" alt="Sri Lanka e‑bike ride through tropical scenery" class="h-full w-full object-contain fade-in" style="animation-delay: 200ms;" width="1600" height="1067" fetchpriority="high" decoding="async" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-width brand bar at bottom of hero -->
+        <div class="absolute inset-x-0 bottom-0">
+          <div class="w-full bg-white/90 backdrop-blur">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div class="flex flex-wrap items-center justify-center gap-10 sm:gap-14 py-4 opacity-85">
+                <span class="text-xs font-semibold tracking-widest text-gunmetal/70 uppercase">Our bikes/E-bike</span>
+                <img src="assets/Images/logos/Giant-Bicycles-Logo.png" alt="Giant Bicycles" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
+                <img src="assets/Images/logos/scott%20logo.png" alt="Scott" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
+                <img src="assets/Images/logos/trek-bicycle-logo.jpg" alt="Trek" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
+                <img src="assets/Images/logos/Vtuvia.svg" alt="Vtuvia" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
+              </div>
+              </div>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <!-- Featured Tours -->
+      <section id="featured-tours" class="bg-gray-50 py-16 md:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <h2 class="text-3xl font-bold tracking-tight">Day Tours</h2>
+              <div class="mt-2 h-[3px] w-12 rounded-full bg-emerald grow-x"></div>
+              <p class="mt-2 text-gunmetal/70">Hand‑picked routes through heritage cities, tea country, and coast.</p>
+            </div>
+            <a href="tours.html" class="hidden sm:inline-flex rounded-lg border border-gunmetal/15 px-4 py-2 text-sm font-medium hover:bg-white">View all</a>
+          </div>
+
+          <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Card 1 -->
+            <article class="reveal rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-soft">
+              <div class="group relative aspect-[16/10] w-full bg-gray-200 overflow-hidden">
+                <a href="tour-ancient-cities.html" class="block h-full w-full">
+                  <img src="assets/Images/day-tours/sigiriya/sigiriya-459197_1920%20(1).jpg" alt="Ancient Cities Sunrise Ride - Sigiriya" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-75" loading="lazy" decoding="async" width="1200" height="800" />
+                  <img src="assets/Map-routes/Dambulla.jpg" alt="Route preview" class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition duration-300" loading="lazy" decoding="async" />
+                  <span class="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-medium text-gunmetal shadow-sm ring-1 ring-black/5 opacity-0 group-hover:opacity-100 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5 text-emerald" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8Zm0 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                    Route
+                  </span>
+                </a>
+              </div>
+              <div class="p-5">
+                <h3 class="font-semibold">Ancient Cities Sunrise Ride</h3>
+                <p class="mt-1 text-sm text-gunmetal/70">Sigiriya & Polonnaruwa heritage loop</p>
+                <div class="mt-3 flex items-center justify-between text-sm">
+                  <span class="text-gunmetal/70">4–5 hrs · Easy · 14 km · Guide included</span>
+                  <span class="font-semibold">From <span class="price" data-price-usd="49">$49</span></span>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <a href="tour-ancient-cities.html" class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
+                    <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button" data-koa-icon="none" data-koa-shape="rounded" style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block" class="hover:brightness-95">Book now</a>
+                  </div>
+                  <a href="tour-ancient-cities.html" class="text-sm text-gunmetal/70 hover:text-gunmetal">Details</a>
+                </div>
+              </div>
+            </article>
+            <!-- Card 2 -->
+            <article class="reveal rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-soft">
+              <div class="group relative aspect-[16/10] w-full bg-gray-200 overflow-hidden">
+                <a href="tour-tea-country.html" class="block h-full w-full">
+                  <img src="assets/Images/day-tours/tea%20country/tea3.jpg" alt="Tea country panorama" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-75" loading="lazy" decoding="async" />
+                  <img src="assets/Map-routes/Dambulla.jpg" alt="Route preview" class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition duration-300" loading="lazy" decoding="async" />
+                  <span class="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-medium text-gunmetal shadow-sm ring-1 ring-black/5 opacity-0 group-hover:opacity-100 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5 text-emerald" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8Zm0 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                    Route
+                  </span>
+                </a>
+              </div>
+              <div class="p-5">
+                <h3 class="font-semibold">Tea Country Panoramic Day</h3>
+                <p class="mt-1 text-sm text-gunmetal/70">Ella to Nine‑Arches & plantations</p>
+                <div class="mt-3 flex items-center justify-between text-sm">
+                  <span class="text-gunmetal/70">6–7 hrs · Moderate · 24 km · Guide included</span>
+                  <span class="font-semibold">From <span class="price" data-price-usd="69">$69</span></span>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <a href="tour-tea-country.html" class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
+                    <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button" data-koa-icon="none" data-koa-shape="rounded" style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block" class="hover:brightness-95">Book now</a>
+                  </div>
+                  <a href="tour-tea-country.html" class="text-sm text-gunmetal/70 hover:text-gunmetal">Details</a>
+                </div>
+              </div>
+            </article>
+            <!-- Card 3 -->
+            <article class="reveal rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-soft">
+              <div class="group relative aspect-[16/10] w-full bg-gray-200 overflow-hidden">
+                <img src="assets/Images/day-tours/galle%20fort/galle1.jpeg" alt="Galle Fort & Coastline" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-75" loading="lazy" decoding="async" />
+                <img src="assets/Map-routes/Dambulla.jpg" alt="Route preview" class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition duration-300" loading="lazy" decoding="async" />
+                <span class="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-medium text-gunmetal shadow-sm ring-1 ring-black/5 opacity-0 group-hover:opacity-100 transition duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5 text-emerald" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8Zm0 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                  Route
+                </span>
+              </div>
+              <div class="p-5">
+                <h3 class="font-semibold">Galle Fort & Coastline</h3>
+                <p class="mt-1 text-sm text-gunmetal/70">Colonial lanes and palm beaches</p>
+                <div class="mt-3 flex items-center justify-between text-sm">
+                  <span class="text-gunmetal/70">3–4 hrs · Easy · 12 km · Guide included</span>
+                  <span class="font-semibold">From <span class="price" data-price-usd="39">$39</span></span>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <a href="tours.html" class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
+                    <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button" data-koa-icon="none" data-koa-shape="rounded" style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block" class="hover:brightness-95">Book now</a>
+                  </div>
+                  <a href="tours.html" class="text-sm text-gunmetal/70 hover:text-gunmetal">Details</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grand Tour 2025 Promo -->
+      <section class="relative py-16 md:py-24 bg-gunmetal text-white" style="background-image: linear-gradient(rgba(10,46,54,0.92), rgba(10,46,54,0.92)), url('assets/Images/grand_tour/flag3.jpg'); background-size: cover; background-position: center;">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-10 md:grid-cols-[1.2fr_1fr] items-center">
+              <div>
+              <div class="md:pr-8">
+                <div class="max-w-3xl">
+                  <div class="flex items-end gap-3">
+                    <div class="font-extrabold leading-none text-white text-[5rem] sm:text-[6.5rem] md:text-[8rem]">2025</div>
+                    <div class="font-extrabold leading-none text-white uppercase">
+                      <div class="text-[2.5rem] sm:text-[3rem] md:text-[3.25rem]">GRAND</div>
+                      <div class="text-[2.5rem] sm:text-[3rem] md:text-[3.25rem]">TOUR</div>
+                    </div>
+                  </div>
+                  <p class="mt-3 text-white/80">17 days across Sri Lanka on modern e‑bikes — curated hotels, meals and transfers included. A sunrise‑to‑sunset adventure with riders from around the world.</p>
+                  <div class="mt-6">
+                    <h3 class="text-xs font-semibold tracking-widest text-white/70 uppercase">Tour Highlights</h3>
+                    <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🏛️</span><span class="text-sm">UNESCO Heritage Sites</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🐘</span><span class="text-sm">Wildlife Safaris</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🌊</span><span class="text-sm">Coastal Beaches</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🍵</span><span class="text-sm">Tea Plantations</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🏨</span><span class="text-sm">Luxury Hotels</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🚴</span><span class="text-sm">Premium E‑Bikes</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🎭</span><span class="text-sm">Cultural Shows</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">💆</span><span class="text-sm">Spa Experience</span></div>
+                      <div class="rounded-lg bg-white/10 border border-white/10 px-3 py-2 flex items-center gap-2"><span class="text-lg">🚌</span><span class="text-sm">Luxury Coach</span></div>
+                    </div>
+                  </div>
+                  <div class="mt-5 grid grid-cols-2 gap-3 text-sm">
+                    <div class="rounded-xl bg-white/10 px-4 py-3 border border-white/10 backdrop-blur">
+                      <div class="text-white/70">Dates</div>
+                      <div class="font-semibold">Nov 9–25, 2025</div>
+                    </div>
+                    <div class="rounded-xl bg-white/10 px-4 py-3 border border-white/10 backdrop-blur">
+                      <div class="text-white/70">Format</div>
+                      <div class="font-semibold">Small group · All‑inclusive</div>
+                    </div>
+                  </div>
+                  <div class="mt-4 inline-flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 border border-white/10">
+                    <span class="relative h-2 w-40 rounded-full bg-white/20 overflow-hidden">
+                      <span class="progress-fill absolute inset-y-0 left-0 h-full bg-[#5FEC00]" style="width: 76%" title="19 of 25 spots"></span>
+                    </span>
+                    <span class="text-xs text-white/80"><strong class="text-white">19</strong> joined · <span class="text-[#5FEC00] font-semibold">6 left</span></span>
+                </div>
+                  <div class="mt-6 flex flex-wrap items-center gap-3">
+                  <a href="grand-tour-2025.html" class="rounded-lg bg-[#5FEC00] px-5 py-3 text-gunmetal font-semibold hover:brightness-95">See details</a>
+                    <a href="book.html" class="rounded-lg border border-white/20 px-5 py-3 font-semibold hover:bg-white/10">Reserve Spot</a>
+                  </div>
+                </div>
+              </div>
+                </div>
+            <!-- Right: gapless masonry gallery (shorter) -->
+            <div class="masonry">
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/6.jpg" alt="Group" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/1.jpeg" alt="Coastal ride" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/2.jpeg" alt="Tea country" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/5.jpeg" alt="Bridge crossing" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/7.jpg" alt="Boardwalk" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/8.jpg" alt="Village lanes" loading="lazy" decoding="async" /></a>
+              <a href="#" class="masonry-item"><img src="assets/Images/grand_tour/10.jpg" alt="Sunset ride" loading="lazy" decoding="async" /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bike rentals (E‑bike or regular) -->
+      <section class="pt-8 md:pt-10 pb-16 md:pb-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mt-10 mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold tracking-tight">Rent a bike</h2>
+            <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
+
+            <div class="mt-6" data-tabs>
+              <div class="flex flex-wrap gap-2 border-b border-gray-200">
+                <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-white text-gunmetal border border-gray-200 border-b-0" data-tab="ebike">E‑Bike</button>
+                <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-gray-50 border border-gray-200 border-b-0" data-tab="regular" aria-selected="false">Regular bike</button>
+              </div>
+
+              <div class="pt-5" data-tab-panel="ebike">
+                <div class="grid items-center gap-8 md:grid-cols-2">
+                  <div class="md:order-1">
+                    <div class="relative h-72 sm:h-96 md:h-[480px]">
+                      <img src="assets/Images/vtuvia-cmb-mid-drive-commuter-ebike-combo-ebike-haul-2157332.webp" alt="E‑bike photo 1" class="fade-slide active object-contain" />
+                      <img src="assets/Images/CMB10S-4_23e4bf07-8732-4fa7-ab16-692ef9054b44_png.webp" alt="E‑bike photo 2" class="fade-slide object-contain" />
+                      <img src="assets/Images/CMB10S-6_5fd46730-1f48-4f34-bfbb-5e3f64dae1b2.webp" alt="E‑bike photo 3" class="fade-slide object-contain" />
+                    </div>
+                  </div>
+                  <div class="md:order-2 md:pl-8">
+                    <div class="max-w-md">
+                      <h3 class="text-xl font-semibold">Comfort touring E‑bike</h3>
+                      <ul class="mt-3 space-y-1 text-sm text-gunmetal/70">
+                        <li>• 250W mid‑drive assistance (3–5 levels)</li>
+                        <li>• Intelligent 5‑level pedal assist · thumb throttle</li>
+                        <li>• Shimano 10‑speed gear shift system</li>
+                        <li>• 540–625Wh battery · up to 90–100km range</li>
+                        <li>• Charging time: 6–8 hours</li>
+                        <li>• Top speed: up to 40 km/h</li>
+                        <li>• Hydraulic disc brakes · front suspension</li>
+                        <li>• Recommended rider height: 5'1″–6'1″</li>
+                        <li>• Helmet and lock included</li>
+                      </ul>
+                      <div class="mt-4 rounded-2xl border border-gray-200 bg-gray-50/60 p-4">
+                        <div class="text-xs font-semibold tracking-widest text-gunmetal/60 uppercase">Included with rental</div>
+                        <div class="mt-3 grid grid-cols-3 sm:grid-cols-6 gap-4 place-items-center">
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/helmet.png" alt="Helmet" class="h-10 w-10 object-contain" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Helmet</span>
+                          </div>
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/charger.jpg" alt="Charger" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Charger</span>
+                          </div>
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/tools.jpg" alt="Tool kit" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Tool kit</span>
+                          </div>
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/pump.jpg" alt="Mini pump" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Mini pump</span>
+                          </div>
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/bag.png" alt="Saddle bag" class="h-10 w-10 object-contain" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Saddle bag</span>
+                          </div>
+                          <div class="flex flex-col items-center gap-2">
+                            <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
+                              <img src="assets/Images/ebikes/battery.jpg" alt="Extra battery" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
+                            </div>
+                            <span class="text-[11px] text-gunmetal/70">Extra battery</span>
+                </div>
+              </div>
+            </div>
+                      <div class="mt-4 flex items-center gap-4">
+                        <div class="text-sm text-gunmetal/70">From <span class="font-semibold price" data-price-usd="29">$29</span> / day</div>
+                        <a href="https://koalendar.com/e/25dollarday" data-koalendar-widget data-koa-type="link" data-koa-icon="calendar" data-koa-shape="rounded" class="no-underline inline-flex items-center rounded-lg bg-gunmetal px-4 py-2 text-white font-semibold hover:brightness-95">Reserve E‑bike</a>
+                      </div>
+                      <p class="mt-3 text-xs text-gunmetal/60">Optional: spare tube and mini‑pump on request.</p>
+              </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-5 hidden" data-tab-panel="regular">
+                <div class="grid items-center gap-8 md:grid-cols-2">
+                  <div class="md:order-1">
+                    <div class="relative h-72 sm:h-96 md:h-[480px]">
+                      <img src="assets/Images/trek1.png" alt="Regular bike rental" class="absolute inset-0 h-full w-full object-contain" loading="lazy" decoding="async" />
+                  </div>
+                  </div>
+                  <div class="md:order-2 md:pl-8">
+                    <div class="max-w-md">
+                      <h3 class="text-xl font-semibold">Reliable city/trekking bike</h3>
+                      <ul class="mt-3 space-y-1 text-sm text-gunmetal/70">
+                        <li>• Lightweight alloy frame · 21/24‑speed</li>
+                        <li>• V‑brakes or mechanical discs</li>
+                        <li>• Comfortable saddle and upright position</li>
+                        <li>• Helmet and lock included</li>
+                      </ul>
+                      <div class="mt-4 flex items-center gap-4">
+                        <div class="text-sm text-gunmetal/70">From <span class="font-semibold price" data-price-usd="15">$15</span> / day</div>
+                        <a href="https://koalendar.com/e/25dollarday-2" data-koalendar-widget data-koa-type="link" class="no-underline inline-flex items-center rounded-lg bg-gunmetal px-4 py-2 text-white font-semibold hover:brightness-95">Reserve bike</a>
+                  </div>
+                      <p class="mt-3 text-xs text-gunmetal/60">Kids sizes and accessories available on request.</p>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tailor‑made Tour Request -->
+      <section id="tailor" class="bg-gunmetal py-12 text-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-12 md:grid-cols-2 items-start">
+            <div class="space-y-4">
+              <h2 class="text-3xl font-bold tracking-tight">Tailor‑made tour</h2>
+              <div class="h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
+              <p class="mt-2 text-white/80">Tell us when you’ll be in Sri Lanka and what you want to experience. We’ll craft a clean, day‑by‑day plan with hotels and logistics, then send it for your review.</p>
+              <div class="mt-4" id="interestTabs" data-tabs>
+                <h3 class="text-sm font-semibold text-white/90">Choose your interests</h3>
+                <div class="mt-3 flex flex-wrap gap-2 border-b border-gray-200">
+                  <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-white text-gunmetal border border-gray-200 border-b-0" data-tab="culture">Culture</button>
+                  <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-gray-50 border border-gray-200 border-b-0" data-tab="wildlife" aria-selected="false">Wildlife</button>
+                  <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-gray-50 border border-gray-200 border-b-0" data-tab="food" aria-selected="false">Food</button>
+                  <button type="button" class="px-3 py-2 text-sm font-medium rounded-t-lg bg-gray-50 border border-gray-200 border-b-0" data-tab="beach" aria-selected="false">Beach</button>
+                </div>
+                <div class="pt-4" data-tab-panel="culture">
+                  <div class="grid grid-cols-3 gap-8" id="interestGrid">
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Dambulla Cave Temple" aria-pressed="false"><img src="assets/Images/icons/Culture/Dambulla Cave temple.jpg" alt="Dambulla Cave Temple" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Dambulla Cave Temple</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Galle Fort" aria-pressed="false"><img src="assets/Images/icons/Culture/galle fort.jpg" alt="Galle Fort" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Galle Fort</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Jaffna Temples" aria-pressed="false"><img src="assets/Images/icons/Culture/Jaffna temple.jpg" alt="Jaffna Temples" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Jaffna Temples</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Polonnaruwa & Anuradhapura" aria-pressed="false"><img src="assets/Images/icons/Culture/PolonnaruwaAnuradhapura.jpg" alt="Polonnaruwa & Anuradhapura" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Polonnaruwa & Anuradhapura</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Sigiriya Rock" aria-pressed="false"><img src="assets/Images/icons/Culture/Sigiriya.jpg" alt="Sigiriya Rock" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Sigiriya Rock</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Temple of the Tooth" aria-pressed="false"><img src="assets/Images/icons/Culture/temple tooth relic kandy.jpg" alt="Temple of the Tooth" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Temple of the Tooth</span></button>
+                  </div>
+                </div>
+                <div class="pt-4 hidden" data-tab-panel="wildlife">
+                  <div class="grid grid-cols-3 gap-8">
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Minneriya National Park" aria-pressed="false"><img src="assets/Images/icons/Wildlife/Minneriya National Park.jpg" alt="Minneriya National Park" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Minneriya National Park</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Mirissa Whale Watching" aria-pressed="false"><img src="assets/Images/icons/Wildlife/Mirissa Whale Watching.jpeg" alt="Mirissa Whale Watching" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Mirissa Whale Watching</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Sinharaja Rainforest" aria-pressed="false"><img src="assets/Images/icons/Wildlife/Sinharaja Rainforest.jpg" alt="Sinharaja Rainforest" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Sinharaja Rainforest</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Udawalawe National Park" aria-pressed="false"><img src="assets/Images/icons/Wildlife/Udawalawa National Park.jpg" alt="Udawalawe National Park" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Udawalawe National Park</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Yala National Park" aria-pressed="false"><img src="assets/Images/icons/Wildlife/Yala National Park.jpg" alt="Yala National Park" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Yala National Park</span></button>
+                  </div>
+                </div>
+                <div class="pt-4 hidden" data-tab-panel="food">
+                  <div class="grid grid-cols-3 gap-8">
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="International Buffet" aria-pressed="false"><img src="assets/Images/icons/food/international-buffet.jpg" alt="International Buffet" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">International Buffet</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Rice & Curry" aria-pressed="false"><img src="assets/Images/icons/food/Rice & Curry.JPG" alt="Rice & Curry" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Rice & Curry</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Seafood" aria-pressed="false"><img src="assets/Images/icons/food/Seafood.jpg" alt="Seafood" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Seafood</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Vegan" aria-pressed="false"><img src="assets/Images/icons/food/Vegan.jpg" alt="Vegan" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Vegan</span></button>
+                  </div>
+                </div>
+                <div class="pt-4 hidden" data-tab-panel="beach">
+                  <div class="grid grid-cols-3 gap-8">
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Arugam Bay" aria-pressed="false"><img src="assets/Images/icons/Beach/Arugam Bay.jpg" alt="Arugam Bay" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Arugam Bay</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Mirissa Beach" aria-pressed="false"><img src="assets/Images/icons/Beach/Mirissa Beach.jpg" alt="Mirissa Beach" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Mirissa Beach</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Unawatuna Beach" aria-pressed="false"><img src="assets/Images/icons/Beach/Unawatuna Beach.jpg" alt="Unawatuna Beach" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Unawatuna Beach</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Hiriketiya Bay" aria-pressed="false"><img src="assets/Images/icons/Beach/Hiriketiya Bay.jpg" alt="Hiriketiya Bay" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Hiriketiya Bay</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Trincomalee Beaches" aria-pressed="false"><img src="assets/Images/icons/Beach/Trincomalee Beaches.webp" alt="Trincomalee Beaches" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Trincomalee Beaches</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Surfing" aria-pressed="false"><img src="assets/Images/icons/Beach/Surfing.jpeg" alt="Surfing" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Surfing</span></button>
+                    <button type="button" class="interest-pill flex flex-col items-center gap-2 px-1 py-1 text-white/90 hover:text-white text-base" data-interest="Fishing villages" aria-pressed="false"><img src="assets/Images/icons/Beach/Fishing.jpg" alt="Fishing" class="interest-img h-20 w-20 object-cover rounded-full transition-transform duration-150" /><span class="interest-label text-xs text-center leading-tight whitespace-normal transition-colors">Fishing villages</span></button>
+                  </div>
+                </div>
+                
+          </div>
+              <ul class="mt-4 grid grid-cols-1 gap-2 text-sm text-white/80 sm:grid-cols-2">
+                <li>Starts anywhere: airport, hotel or your current city</li>
+              </ul>
+              
+            </div>
+
+            <form id="tailorForm" action="https://formspree.io/f/mwpnoerk" method="POST" class="md:mt-6">
+              <input type="hidden" name="_subject" value="Tailor‑made tour request" />
+              <input type="hidden" id="tmInterests" name="interests" value="" />
+              <div class="grid gap-3 w-full md:grid-cols-2 md:gap-4 md:ml-auto">
+                <div>
+                  <label for="tmName" class="text-sm text-white/90">Name</label>
+                  <input id="tmName" name="name" type="text" required class="mt-2 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal placeholder:text-gunmetal/50 focus:outline-none focus:ring-2 focus:ring-emerald/60" placeholder="Your name" />
+                </div>
+                <div>
+                  <label for="tmPhone" class="text-sm text-white/90">Phone</label>
+                  <input id="tmPhone" name="phone" type="tel" inputmode="tel" class="mt-2 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal placeholder:text-gunmetal/50 focus:outline-none focus:ring-2 focus:ring-emerald/60" placeholder="Your phone (incl. country code)" />
+                </div>
+                <div>
+                  <label for="tmEmail" class="text-sm text-white/90">Email</label>
+                  <input id="tmEmail" name="email" type="email" required class="mt-2 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal placeholder:text-gunmetal/50 focus:outline-none focus:ring-2 focus:ring-emerald/60" placeholder="you@example.com" />
+                </div>
+                <div>
+                  <label for="tmArrival" class="text-sm text-white/90">Arrival Date</label>
+                  <input id="tmArrival" name="arrival_date" type="date" class="mt-2 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal placeholder:text-gunmetal/50 focus:outline-none focus:ring-2 focus:ring-emerald/60" />
+                </div>
+                <div>
+                  <label for="tmRiders" class="text-sm text-white/90">Number of riders</label>
+                  <input id="tmRiders" name="num_riders" type="number" min="1" max="10" step="1" value="1" class="mt-2 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal focus:outline-none focus:ring-2 focus:ring-emerald/60" />
+                </div>
+                <div>
+                  <label for="tmHotel" class="text-sm text-white/90">Hotel levels</label>
+                  <select id="tmHotel" name="hotel_level" class="mt-2 h-11 w-full appearance-none rounded-lg border border-white/20 bg-white px-3 text-sm text-gunmetal focus:outline-none focus:ring-2 focus:ring-emerald/60">
+                    <option value="Boutique">Boutique</option>
+                    <option value="Mid-range">Mid‑range</option>
+                    <option value="Luxury">Luxury</option>
+                    <option value="Mixed/Undecided">Mixed / Undecided</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-3 w-full md:ml-auto">
+                <label for="tmComments" class="text-sm text-white/90">Comments</label>
+                <textarea id="tmComments" name="message" rows="3" class="mt-2 w-full rounded-lg border border-white/20 bg-white px-3 py-2 text-sm text-gunmetal placeholder:text-gunmetal/50 focus:outline-none focus:ring-2 focus:ring-emerald/60" placeholder="Trip dates, interests, preferences..."></textarea>
+            </div>
+              <div class="mt-3 w-full md:ml-auto flex flex-wrap items-center gap-3 md:justify-end">
+                <span id="tmStatus" class="text-xs text-white/80"></span>
+                <button type="submit" class="rounded-lg bg-limeflash px-5 py-3 text-gunmetal font-semibold hover:brightness-95">Send</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Founder Message -->
+      <section class="bg-gray-50 py-16 md:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-7xl">
+            <div class="rounded-3xl border border-gray-200 bg-white shadow-soft overflow-hidden">
+              <div class="grid gap-6 md:gap-10 md:grid-cols-2">
+                <!-- Photo -->
+                <div class="relative md:order-2">
+                  <div class="absolute inset-0 bg-gradient-to-r from-gray-50 to-transparent md:hidden"></div>
+                  <img src="assets/Images/edited.jpg" alt="Founder" class="h-96 w-full object-cover md:h-full" loading="lazy" decoding="async" />
+                </div>
+                <!-- Message -->
+                <div class="p-8 md:p-12 md:order-1">
+                  <h2 class="text-3xl font-bold tracking-tight">A note from founder</h2>
+                  <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
+                  <p class="mt-4 text-gunmetal/80 leading-relaxed">Hi, I’m your host and ride lead. I started these e‑bike tours to share the Sri Lanka I know — sunrise lanes, tea country climbs, quiet lakes, and the smiles you can only find off the main road. Whether you’re here for a day or a couple of weeks, I’ll tailor the pace, stops, and stories to what you love most.</p>
+                  <p class="mt-4 text-gunmetal/70 leading-relaxed">Tell me your dates and the kind of experience you want — heritage, wildlife, coast, or a bit of everything — and I’ll send back a clean day‑by‑day plan. See you on the trail.</p>
+                  <div class="mt-5 flex items-center gap-3">
+                    <img src="assets/Images/Logo.jpg" alt="Ceylon E‑Bike Tours" class="h-9 w-9 rounded-lg object-cover" loading="lazy" decoding="async" />
+                    <div class="text-sm">
+                      <div class="font-semibold text-gunmetal">Ceylon E‑Bike Tours</div>
+                      <div class="text-gunmetal/60">Founder & Lead Guide</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid gap-8 md:grid-cols-4">
+          <div>
+            <div class="flex items-center gap-2 font-semibold"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald text-gunmetal">eB</span> Ceylon E‑Bike Tours</div>
+            <p class="mt-3 text-sm text-gunmetal/70">Eco e‑bike tours across Sri Lanka’s heritage and nature.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold">UK Office</h4>
+            <p class="mt-3 text-sm text-gunmetal/80">212 Merlin Wharf, Leicester, UK<br>Phone: <a href="tel:+447903157477" class="hover:text-emerald">07903157477</a><br>Email: <a href="mailto:ebikewithus@gmail.com" class="hover:text-emerald">ebikewithus@gmail.com</a></p>
+          </div>
+          <div>
+            <h4 class="font-semibold">Sri Lanka Office</h4>
+            <p class="mt-3 text-sm text-gunmetal/80">52A Ambathale, Mulleriyawa, Sri Lanka<br>Phone: <a href="tel:+94714353877" class="hover:text-emerald">0714353877</a><br>Email: <a href="mailto:ebikewithus@gmail.com" class="hover:text-emerald">ebikewithus@gmail.com</a></p>
+          </div>
+          <div>
+            <h4 class="font-semibold">Get in touch</h4>
+            <p class="mt-3 text-sm text-gunmetal/80">WhatsApp: +94 714353877<br>Email: hello@ceylonebike.example</p>
+          </div>
+        </div>
+        <div class="mt-8 flex items-center justify-between border-t border-gray-200 pt-6 text-xs text-gunmetal/60">
+          <span>© <span id="year"></span> Ceylon E‑Bike Tours</span>
+          <a href="book.html" class="font-medium text-gunmetal hover:text-emerald">Book a ride</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/94700000000" target="_blank" rel="noopener" class="fixed bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald text-gunmetal shadow-soft hover:brightness-95" aria-label="Chat on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.92 11.92 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 22c-1.9 0-3.73-.5-5.34-1.45l-.38-.22-3.66.96.98-3.57-.25-.37A9.96 9.96 0 0 1 2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10Zm5.4-7.58c-.3-.15-1.76-.86-2.03-.96-.27-.1-.47-.15-.67.15-.2.3-.77.95-.95 1.15-.17.2-.35.22-.65.07-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46 .13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.5-.5-.67-.5l-.57-.01c-.2 0-.52.08-.8.37-.27.3-1.05 1.03-1.05 2.5s1.08 2.88 1.23 3.08c.15.2 2.13 3.26 5.16 4.57.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
+    </a>
+
+    <script src="assets/js/main.js"></script>
+    <script>window.Koalendar=window.Koalendar||function(){(Koalendar.props=Koalendar.props||[]).push(arguments)};</script>
+    <script async src="https://koalendar.com/assets/widget.js"></script>
+    <script>
+      Koalendar('init');
+    </script>
   </body>
-</html>
+</html> 

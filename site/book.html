@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book | Ceylon E‑Bike Tours</title>
+    <meta name="description" content="Reserve your Sri Lanka e‑bike tour dates. Minimal booking scaffold for now." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { theme: { extend: { colors: { gunmetal: '#0A2E36', limeflash: '#63F800', emerald: '#14CC60' }, fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','sans-serif'] }, boxShadow: { soft: '0 10px 30px rgba(10,46,54,.15)'} } } }
+    </script>
+    <style> html{scroll-behavior:smooth} .nav-scrolled{backdrop-filter:saturate(140%) blur(6px);} </style>
+  </head>
+  <body class="antialiased text-gunmetal bg-white">
+    <header class="sticky top-0 z-50 bg-gunmetal/90 text-white backdrop-blur">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between py-4 lg:py-5">
+          <a href="index.html" class="flex items-center gap-3">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-emerald text-gunmetal font-extrabold">eB</span>
+            <span class="text-lg font-semibold tracking-tight">E-Bike Tours</span>
+          </a>
+          <nav class="hidden md:flex items-center gap-8">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="tours.html" class="nav-link">Tours</a>
+            <a href="grand-tour-2025.html" class="nav-link">Grand Tour ’25</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="faq.html" class="nav-link">FAQ</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+          </nav>
+          <div class="hidden md:flex items-center gap-3">
+            <a href="book.html" class="inline-flex items-center rounded-lg bg-limeflash px-4 py-2 text-gunmetal font-semibold hover:brightness-95">Book Now</a>
+          </div>
+          <button id="menuToggle" class="md:hidden p-2" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        </div>
+      </div>
+      <div id="mobileNav" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] translate-x-full bg-gunmetal text-white shadow-soft transition-transform duration-300">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+          <span class="font-semibold">Menu</span>
+          <button id="menuClose" class="p-2 rounded-lg hover:bg-white/10" aria-label="Close menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <nav class="flex flex-col gap-1 p-3">
+          <a href="index.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Home</a>
+          <a href="tours.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Tours</a>
+          <a href="grand-tour-2025.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Grand Tour ’25</a>
+          <a href="about.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">About</a>
+          <a href="gallery.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Gallery</a>
+          <a href="faq.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">FAQ</a>
+          <a href="contact.html" class="mobile-link px-3 py-3 rounded-lg hover:bg-white/10">Contact</a>
+          <a href="book.html" class="mt-2 inline-flex items-center justify-center rounded-lg bg-limeflash px-4 py-3 text-gunmetal font-semibold">Book Now</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="pt-24">
+      <section class="py-12">
+        <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold tracking-tight">Book your ride</h1>
+          <p class="mt-2 text-gunmetal/70">This is a simple multi‑step skeleton. Connect to a backend later.</p>
+
+          <!-- Progress -->
+          <div class="mt-6 grid grid-cols-3 gap-2 text-xs">
+            <div class="h-2 rounded-full bg-emerald"></div>
+            <div class="h-2 rounded-full bg-gray-200" id="stepB"></div>
+            <div class="h-2 rounded-full bg-gray-200" id="stepC"></div>
+          </div>
+
+          <form class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-soft">
+            <div id="step1" class="step">
+              <h2 class="font-semibold">Step 1 — Choose tour & date</h2>
+              <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="text-sm font-medium">Tour</label>
+                  <select class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2">
+                    <option>Ancient Cities Sunrise Ride</option>
+                    <option>Tea Country Panoramic Day</option>
+                    <option>Galle Fort & Coastline</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-sm font-medium">Date</label>
+                  <input type="date" class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2" />
+                </div>
+                <div>
+                  <label class="text-sm font-medium">Group size</label>
+                  <input type="number" min="1" value="2" class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2" />
+                </div>
+              </div>
+              <div class="mt-6 flex justify-end">
+                <button type="button" data-next="2" class="next-step rounded-lg bg-emerald px-4 py-2 font-semibold text-gunmetal">Next</button>
+              </div>
+            </div>
+
+            <div id="step2" class="step hidden">
+              <h2 class="font-semibold">Step 2 — Your details</h2>
+              <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="text-sm font-medium">Full name</label>
+                  <input type="text" class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2" />
+                </div>
+                <div>
+                  <label class="text-sm font-medium">Email</label>
+                  <input type="email" class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="text-sm font-medium">Notes</label>
+                  <textarea rows="3" class="mt-1 w-full rounded-lg border border-gunmetal/15 px-3 py-2" placeholder="Rider heights, hotel, special requests..."></textarea>
+                </div>
+              </div>
+              <div class="mt-6 flex justify-between">
+                <button type="button" data-prev="1" class="prev-step rounded-lg border border-gunmetal/15 px-4 py-2">Back</button>
+                <button type="button" data-next="3" class="next-step rounded-lg bg-emerald px-4 py-2 font-semibold text-gunmetal">Next</button>
+              </div>
+            </div>
+
+            <div id="step3" class="step hidden">
+              <h2 class="font-semibold">Step 3 — Confirm</h2>
+              <p class="mt-4 text-sm text-gunmetal/80">We’ll confirm availability by email/WhatsApp within 12 hours. Payments will be enabled later.</p>
+              <div class="mt-6 flex justify-between">
+                <button type="button" data-prev="2" class="prev-step rounded-lg border border-gunmetal/15 px-4 py-2">Back</button>
+                <button type="button" class="rounded-lg bg-gunmetal px-5 py-2 text-white">Request booking</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid gap-8 md:grid-cols-4">
+          <div>
+            <div class="flex items-center gap-2 font-semibold"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald text-gunmetal">eB</span> Ceylon E‑Bike Tours</div>
+            <p class="mt-3 text-sm text-gunmetal/70">Eco e‑bike tours across Sri Lanka.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold">Company</h4>
+            <ul class="mt-3 space-y-2 text-sm text-gunmetal/80">
+              <li><a href="about.html" class="hover:text-gunmetal">About</a></li>
+              <li><a href="tours.html" class="hover:text-gunmetal">Tours</a></li>
+              <li><a href="faq.html" class="hover:text-gunmetal">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold">Support</h4>
+            <ul class="mt-3 space-y-2 text-sm text-gunmetal/80">
+              <li><a href="contact.html" class="hover:text-gunmetal">Contact</a></li>
+              <li><a href="book.html" class="hover:text-gunmetal">Book</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold">Get in touch</h4>
+            <p class="mt-3 text-sm text-gunmetal/80">WhatsApp: +94 7X XXX XXXX<br>Email: hello@ceylonebike.example</p>
+          </div>
+        </div>
+        <div class="mt-8 flex items-center justify-between border-t border-gray-200 pt-6 text-xs text-gunmetal/60">
+          <span>© <span id="year"></span> Ceylon E‑Bike Tours</span>
+          <a href="book.html" class="font-medium text-gunmetal hover:text-emerald">Book a ride</a>
+        </div>
+      </div>
+    </footer>
+
+    <a href="https://wa.me/94700000000" target="_blank" rel="noopener" class="fixed bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald text-gunmetal shadow-soft hover:brightness-95" aria-label="Chat on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.92 11.92 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 22c-1.9 0-3.73-.5-5.34-1.45l-.38-.22-3.66.96.98-3.57-.25-.37A9.96 9.96 0 0 1 2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10Zm5.4-7.58c-.3-.15-1.76-.86-2.03-.96-.27-.1-.47-.15-.67.15-.2.3-.77.95-.95 1.15-.17.2-.35.22-.65.07-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.5-.5-.67-.5l-.57-.01c-.2 0-.52.08-.8.37-.27.3-1.05 1.03-1.05 2.5s1.08 2.88 1.23 3.08c.15.2 2.13 3.26 5.16 4.57.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
+    </a>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html> 

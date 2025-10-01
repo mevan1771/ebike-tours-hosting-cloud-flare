@@ -24,6 +24,11 @@
   const bearing = parseFloat(getParam('bearing', '-12'));
   const pitch = parseFloat(getParam('pitch', '61'));
 
+  if (typeof window.mapboxgl === 'undefined') {
+    document.body.insertAdjacentHTML('beforeend', '<div style="position:absolute;inset:0;display:grid;place-items:center;font-family:Inter,system-ui,sans-serif;color:#0A2E36;background:#f8fafc">Map library failed to load. Check network/CSP.</div>');
+    return;
+  }
+
   if (!window.MAPBOX_TOKEN || typeof window.MAPBOX_TOKEN !== 'string' || window.MAPBOX_TOKEN.length < 10) {
     document.body.insertAdjacentHTML('beforeend', '<div style="position:absolute;inset:0;display:grid;place-items:center;font-family:Inter,system-ui,sans-serif;color:#0A2E36;background:#f8fafc">Missing/invalid Mapbox token.</div>');
     return;

@@ -24,6 +24,11 @@
   const bearing = parseFloat(getParam('bearing', '-12'));
   const pitch = parseFloat(getParam('pitch', '61'));
 
+  if (!window.MAPBOX_TOKEN || typeof window.MAPBOX_TOKEN !== 'string' || window.MAPBOX_TOKEN.length < 10) {
+    document.body.insertAdjacentHTML('beforeend', '<div style="position:absolute;inset:0;display:grid;place-items:center;font-family:Inter,system-ui,sans-serif;color:#0A2E36;background:#f8fafc">Missing/invalid Mapbox token.</div>');
+    return;
+  }
+
   mapboxgl.accessToken = window.MAPBOX_TOKEN;
 
   const map = new mapboxgl.Map({
@@ -79,6 +84,12 @@
     return [[minX, minY], [maxX, maxY]];
   }
 
+  // Simple loading indicator
+  const loadingEl = document.createElement('div');
+  loadingEl.style.cssText = 'position:absolute;inset:auto 12px 12px auto;z-index:1;background:rgba(255,255,255,.9);padding:6px 8px;border-radius:6px;font:500 12px/1.4 Inter,system-ui,sans-serif;color:#0A2E36;box-shadow:0 2px 8px rgba(0,0,0,.08)';
+  loadingEl.textContent = 'Loading GPX…';
+  document.body.appendChild(loadingEl);
+
   loadGpx(gpxUrl).then(coords => {
     const geojson = {
       type: 'FeatureCollection',
@@ -103,11 +114,18 @@
       try {
         map.fitBounds(b, { padding: 40, duration: 800, pitch, bearing });
       } catch(e) {}
+
+      if (loadingEl && loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
     });
   }).catch(err => {
     console.error(err);
+    if (loadingEl && loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
     const el = document.getElementById('map');
-    if (el) el.insertAdjacentHTML('afterend', '<div style="padding:12px;color:#b91c1c">Failed to load GPX.</div>');
+    if (el) el.insertAdjacentHTML('afterend', '<div style="padding:12px;color:#b91c1c;font-family:Inter,system-ui,sans-serif">Failed to load GPX. Please check the URL and CORS.</div>');
+  });
+
+  map.on('error', (e) => {
+    console.error('Map error', e && e.error);
   });
 })();
 

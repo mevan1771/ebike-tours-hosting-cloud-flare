@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Route Map</title>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+    <style>
+      html, body { margin:0; padding:0; height:100%; }
+      #map { position:absolute; inset:0; }
+      .leaflet-control-attribution { font-size: 11px; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet-gpx@2.1.0/gpx.min.js"></script>
+    <script>
+      (function(){
+        function qp(name, fb){ const u=new URL(window.location.href); const v=u.searchParams.get(name); return v==null||v===''?fb:v; }
+        const file = qp('file');
+        const lat = parseFloat(qp('lat','6.87504'));
+        const lng = parseFloat(qp('lng','80.54264'));
+        const zoom = parseFloat(qp('zoom','11.3'));
+        if(!file){ document.body.insertAdjacentHTML('beforeend','<div style="position:absolute;inset:0;display:grid;place-items:center;font:500 14px/1.4 system-ui,Segoe UI,Inter">Missing ?file=…</div>'); return; }
+
+        const map = L.map('map', { zoomControl: true, attributionControl: true }).setView([lat,lng], zoom);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const gpx = new L.GPX(file, {
+          async: true,
+          polyline_options: { color: '#1565D8', weight: 4, opacity: 0.95 }
+        });
+        gpx.on('loaded', function(e){ map.fitBounds(e.target.getBounds(), { padding: [30,30] }); });
+        gpx.addTo(map);
+      })();
+    </script>
+  </body>
+  </html>
+
+

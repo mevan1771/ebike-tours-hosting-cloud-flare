@@ -336,27 +336,30 @@
                 </div>
               </div>
                 </div>
-            <!-- Right: balanced 3x2 mosaic (two wides + four regulars) -->
+            <!-- Right: mixed-size mosaic (wide, tall and regular tiles) -->
             <div class="grid grid-cols-6 gap-4 items-stretch">
-              <!-- Row 1: wide + two regulars -->
-              <div class="col-span-6 lg:col-span-3 relative overflow-hidden rounded-xl shadow-soft aspect-[16/9]">
+              <!-- Wide hero -->
+              <div class="col-span-6 lg:col-span-4 relative overflow-hidden rounded-xl shadow-soft aspect-[16/9]">
                 <img src="assets/Images/grand_tour/6.jpg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               </div>
-              <div class="col-span-3 lg:col-span-1 relative overflow-hidden rounded-xl shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/1.jpeg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
+              <!-- Tall portrait -->
+              <div class="col-span-3 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-xl shadow-soft aspect-[3/4] lg:aspect-auto">
+                <img src="assets/Images/grand_tour/1.jpeg" alt="Grand Tour portrait" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               </div>
+              <!-- Regulars -->
               <div class="col-span-3 lg:col-span-2 relative overflow-hidden rounded-xl shadow-soft aspect-[4/3]">
                 <img src="assets/Images/grand_tour/2.jpeg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               </div>
-              <!-- Row 2: two regulars + wide -->
               <div class="col-span-3 lg:col-span-2 relative overflow-hidden rounded-xl shadow-soft aspect-[4/3]">
                 <img src="assets/Images/grand_tour/5.jpeg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               </div>
-              <div class="col-span-3 lg:col-span-1 relative overflow-hidden rounded-xl shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/7.jpg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="col-span-6 lg:col-span-3 relative overflow-hidden rounded-xl shadow-soft aspect-[16/9]">
+              <!-- Second wide -->
+              <div class="col-span-6 lg:col-span-4 relative overflow-hidden rounded-xl shadow-soft aspect-[16/9]">
                 <img src="assets/Images/grand_tour/10.jpg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
+              </div>
+              <!-- Small square accent -->
+              <div class="col-span-3 lg:col-span-2 relative overflow-hidden rounded-xl shadow-soft aspect-square">
+                <img src="assets/Images/grand_tour/7.jpg" alt="Grand Tour" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>

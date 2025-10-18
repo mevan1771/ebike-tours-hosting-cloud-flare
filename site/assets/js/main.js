@@ -430,4 +430,64 @@
       }
     }
   } catch (_e) {}
+
+  // Grand Tour calendar (November 2025) — self-hosted colorful version
+  (function initGrandTourCalendar() {
+    const grid = document.querySelector('.cal-grid');
+    const dayRow = document.getElementById('gt-day-row');
+    const info = document.getElementById('gt-calendar-info');
+    if (!grid && !dayRow) return;
+
+  const tourLocations = {
+      9:  'Mirissa',
+      10: 'Mirissa',
+      11: 'Kirinda',
+      12: 'Kirinda',
+      13: 'Kirinda',
+      14: 'Udawalawe',
+      15: 'Nuwara Eliya',
+      16: 'Ramboda',
+      17: 'Kandy',
+      18: 'Girithale',
+      19: 'Girithale',
+      20: 'Sigiriya',
+      21: 'Negombo',
+      22: 'Negombo',
+      23: 'Negombo'
+    };
+
+    const wire = (root) => {
+      root.querySelectorAll('[data-day]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const day = Number(btn.getAttribute('data-day'));
+          const label = tourLocations[day] || 'Sri Lanka Ride Day';
+          if (info) info.textContent = `Day ${day - 8}: ${label}`;
+          const evt = new CustomEvent('gt:daySelected', { detail: { year: 2025, month: 11, day, label } });
+          document.dispatchEvent(evt);
+        });
+      });
+    };
+    if (grid) wire(grid);
+    if (dayRow) wire(dayRow);
+
+    const firstTourBtn = (grid || dayRow) && (grid || dayRow).querySelector('[data-day="9"]');
+    if (firstTourBtn) firstTourBtn.click();
+  })();
+
+  // Grand Tour Tabs (Map / Photos) simple toggle
+  (function initGrandTourTabs() {
+    const tabs = document.querySelectorAll('.gt-tab');
+    const mapPanel = document.getElementById('gt-tab-map');
+    const photosPanel = document.getElementById('gt-tab-photos');
+    if (!tabs.length || !mapPanel || !photosPanel) return;
+    function activate(target) {
+      tabs.forEach((b) => b.classList.toggle('tab-active-green', b.getAttribute('data-target') === target));
+      const isMap = target === 'map';
+      mapPanel.classList.toggle('hidden', !isMap);
+      photosPanel.classList.toggle('hidden', isMap);
+      if (isMap) setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    }
+    tabs.forEach((b) => b.addEventListener('click', () => activate(b.getAttribute('data-target') || 'map')));
+    activate('map');
+  })();
 })(); 

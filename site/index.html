@@ -48,7 +48,8 @@
       .progress-fill { transition: width 900ms cubic-bezier(0.22, 1, 0.36, 1); }
       /* Masonry gallery for Grand Tour (gapless vertical flow) */
       .masonry { column-count: 2; column-gap: 12px; }
-      @media (min-width: 1024px) { .masonry { column-count: 2; } }
+      @media (min-width: 768px) { .masonry { column-count: 2; } }
+      @media (min-width: 1280px) { .masonry { column-count: 3; } }
       .masonry-item { break-inside: avoid; -webkit-column-break-inside: avoid; page-break-inside: avoid; display: block; overflow: hidden; border-radius: 0.75rem; margin-bottom: 12px; }
       .masonry-item img { display: block; width: 100%; height: auto; }
       @media (prefers-reduced-motion: reduce) {
@@ -70,6 +71,8 @@
       .fade-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 600ms ease; }
       .fade-slide.active { opacity: 1; }
     </style>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
   </head>
   <body class="antialiased text-gunmetal bg-white">
     <!-- Header / Navigation -->
@@ -175,22 +178,115 @@
           </div>
         </div>
 
-        <!-- Full-width brand bar at bottom of hero (desktop only) -->
-        <div class="absolute inset-x-0 bottom-0 hidden md:block">
-          <div class="w-full bg-white/90 backdrop-blur">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div class="flex flex-wrap items-center justify-center gap-10 sm:gap-14 py-4 opacity-85">
-                <img src="assets/Images/logos/Giant-Bicycles-Logo.png" alt="Giant Bicycles" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
-                <img src="assets/Images/logos/scott%20logo.png" alt="Scott" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
-                <img src="assets/Images/logos/trek-bicycle-logo.jpg" alt="Trek" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
-                <img src="assets/Images/logos/Vtuvia.svg" alt="Vtuvia" class="h-8 sm:h-10 object-contain" loading="lazy" decoding="async" />
-              </div>
-              </div>
-          </div>
-        </div>
+        
+        
       </section>
 
       
+
+      <!-- Featured Tours moved below Grand Tour -->
+
+      <!-- Grand Tour 2025 Promo -->
+      <section class="relative py-16 md:py-24 bg-white text-gunmetal">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0">
+          <!-- Unified title on top -->
+          <div class="mb-6">
+            <h2 class="text-[2.25rem] sm:text-4xl md:text-5xl font-extrabold tracking-tight">2025 GRAND TOUR</h2>
+            <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
+          </div>
+          
+          <div class="grid gap-4 md:grid-cols-2 items-start">
+              <div class="md:order-2">
+              <div class="md:pl-6">
+                <div class="max-w-3xl md:max-w-md">
+                  <p class="mb-4 text-gunmetal/80">17 days across Sri Lanka on modern e‑bikes — curated hotels, meals and transfers included. A sunrise‑to‑sunset adventure with riders from around the world.</p>
+
+                  <!-- Trip Overview (compact) -->
+                  <div class="mt-4">
+                    <div class="rounded-2xl border border-gray-200 bg-white shadow-soft overflow-hidden w-full md:max-w-sm md:shrink-0 md:self-start">
+                      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+                        <h3 class="text-xs font-semibold tracking-widest uppercase text-gunmetal/80">Trip Overview</h3>
+                      </div>
+                      <div class="p-4 space-y-4">
+                        <div class="flex flex-wrap items-center gap-2">
+                          <span class="inline-flex items-center rounded-full bg-gray-100 border border-gray-200 px-2.5 py-1 text-xs font-medium text-gunmetal/80">17 Days</span>
+                          <span class="inline-flex items-center rounded-full bg-gray-100 border border-gray-200 px-2.5 py-1 text-xs font-medium text-gunmetal/80">800 km</span>
+                          <span class="inline-flex items-center rounded-full bg-gray-100 border border-gray-200 px-2.5 py-1 text-xs font-medium text-gunmetal/80">25 Riders</span>
+                        </div>
+                        <div>
+                          <div class="mb-2 text-[11px] font-semibold text-gunmetal/60 uppercase">Schedule · Nov 2025</div>
+                          <div id="gt-day-row" class="flex flex-wrap gap-1.5">
+                            <button data-day="9" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">9</button>
+                            <button data-day="10" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">10</button>
+                            <button data-day="11" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">11</button>
+                            <button data-day="12" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">12</button>
+                            <button data-day="13" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">13</button>
+                            <button data-day="14" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">14</button>
+                            <button data-day="15" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">15</button>
+                            <button data-day="16" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">16</button>
+                            <button data-day="17" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">17</button>
+                            <button data-day="18" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">18</button>
+                            <button data-day="19" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">19</button>
+                            <button data-day="20" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">20</button>
+                            <button data-day="21" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">21</button>
+                            <button data-day="22" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">22</button>
+                            <button data-day="23" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">23</button>
+                            <button data-day="24" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">24</button>
+                            <button data-day="25" class="h-7 w-7 rounded-full bg-[#5FEC00] text-[11px] font-semibold text-gunmetal">25</button>
+                          </div>
+                          <div id="gt-calendar-info" class="mt-2 text-xs text-gunmetal/70"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                  <div class="mt-6 max-w-md">
+                    <h3 class="text-xs font-semibold tracking-widest text-gunmetal/60 uppercase">Tour Highlights</h3>
+                    <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2">
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🏛️</span><span class="text-sm">UNESCO Heritage Sites</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🐘</span><span class="text-sm">Wildlife Safaris</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🌊</span><span class="text-sm">Coastal Beaches</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🍵</span><span class="text-sm">Tea Plantations</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🏨</span><span class="text-sm">Luxury Hotels</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🚴</span><span class="text-sm">Premium E‑Bikes</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🎭</span><span class="text-sm">Cultural Shows</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">💆</span><span class="text-sm">Spa Experience</span></div>
+                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🚌</span><span class="text-sm">Luxury Coach</span></div>
+              </div>
+              </div>
+                  
+                  <div class="mt-6 flex flex-wrap items-center gap-3">
+                  <a href="grand-tour-2025.html" class="rounded-lg bg-[#5FEC00] px-5 py-3 text-gunmetal font-semibold hover:brightness-95">See details</a>
+                    <a href="book.html" class="rounded-lg border border-gunmetal/20 px-5 py-3 font-semibold text-gunmetal hover:bg-gunmetal/5">Reserve Spot</a>
+              </div>
+              </div>
+              </div>
+              </div>
+            <div class="md:order-1 md:pr-6 md:-mt-2">
+              <div class="relative rounded-xl overflow-hidden h-[320px] md:h-[360px]">
+                <div id="tourMap" class="absolute inset-0"></div>
+              </div>
+              <div class="mt-6">
+                <div class="mx-auto max-w-4xl">
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                    <img src="assets/Images/grand_tour/6.jpg" alt="Group" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/1.jpeg" alt="Coastal ride" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/2.jpeg" alt="Tea country" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/5.jpeg" alt="Bridge crossing" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/7.jpg" alt="Boardwalk" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/8.jpg" alt="Village lanes" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/10.jpg" alt="Sunset ride" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/3.jpeg" alt="Hill country ride" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                    <img src="assets/Images/grand_tour/4.jpeg" alt="Cultural stop" class="rounded-xl w-full h-28 sm:h-32 object-cover" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
 
       <!-- Featured Tours -->
       <section id="featured-tours" class="bg-gray-50 py-16 md:py-24">
@@ -233,11 +329,11 @@
                 </div>
               </div>
             </article>
-            <!-- Card 2 (Adam’s Peak) -->
+            <!-- Card 2 (Adam's Peak) -->
             <article class="reveal rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-soft">
               <div class="group relative aspect-[16/10] w-full bg-gray-200 overflow-hidden">
                 <a href="tour-tea-country.html" class="block h-full w-full">
-                  <img src="assets/Images/day-tours/tea%20country/Adams%20Peak/adams-peak.avif" alt="Adam’s Peak Cycle & Sacred Climb" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-75" loading="lazy" decoding="async" />
+                  <img src="assets/Images/day-tours/tea%20country/Adams%20Peak/adams-peak.avif" alt="Adam's Peak Cycle & Sacred Climb" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-75" loading="lazy" decoding="async" />
                   <img src="assets/Map-routes/Adams%20peak.jpg" alt="Route preview" class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition duration-300" loading="lazy" decoding="async" />
                   <span class="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-medium text-gunmetal shadow-sm ring-1 ring-black/5 opacity-0 group-hover:opacity-100 transition duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5 text-emerald" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8Zm0 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
@@ -246,7 +342,7 @@
                 </a>
               </div>
               <div class="p-5">
-                <h3 class="font-semibold">Adam’s Peak Cycle & Sacred Climb</h3>
+                <h3 class="font-semibold">Adam's Peak Cycle & Sacred Climb</h3>
                 <p class="mt-1 text-sm text-gunmetal/70">Maskeliya Lake loop & Sri Pada sunrise</p>
                 <div class="mt-3 flex items-center justify-between text-sm">
                   <span class="text-gunmetal/70">8–10 hrs · Mod‑Challenging · 15–25 km + climb</span>
@@ -288,106 +384,12 @@
         </div>
       </section>
 
-      <!-- Grand Tour 2025 Promo -->
-      <section class="relative py-16 md:py-24 bg-white text-gunmetal">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="grid gap-10 md:grid-cols-[1.2fr_1fr] items-center">
-              <div>
-              <div class="md:pr-8">
-                <div class="max-w-3xl">
-                  <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-emerald/10 text-emerald px-3 py-1 text-xs font-semibold">Grand Tour ’25</div>
-                  <div class="flex items-end gap-3">
-                    <div class="font-extrabold leading-none text-gunmetal text-[5rem] sm:text-[6.5rem] md:text-[8rem]">2025</div>
-                    <div class="font-extrabold leading-none text-gunmetal uppercase">
-                      <div class="text-[2.5rem] sm:text-[3rem] md:text-[3.25rem]">GRAND</div>
-                      <div class="text-[2.5rem] sm:text-[3rem] md:text-[3.25rem]">TOUR</div>
-                    </div>
-                  </div>
-                  <p class="mt-3 text-gunmetal/80">17 days across Sri Lanka on modern e‑bikes — curated hotels, meals and transfers included. A sunrise‑to‑sunset adventure with riders from around the world.</p>
-                  <div class="mt-6">
-                    <h3 class="text-xs font-semibold tracking-widest text-gunmetal/60 uppercase">Tour Highlights</h3>
-                    <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2">
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🏛️</span><span class="text-sm">UNESCO Heritage Sites</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🐘</span><span class="text-sm">Wildlife Safaris</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🌊</span><span class="text-sm">Coastal Beaches</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🍵</span><span class="text-sm">Tea Plantations</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🏨</span><span class="text-sm">Luxury Hotels</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🚴</span><span class="text-sm">Premium E‑Bikes</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🎭</span><span class="text-sm">Cultural Shows</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">💆</span><span class="text-sm">Spa Experience</span></div>
-                      <div class="flex items-center gap-2 text-gunmetal/80"><span class="text-lg">🚌</span><span class="text-sm">Luxury Coach</span></div>
-                    </div>
-                  </div>
-                  <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
-                    <span class="inline-flex items-center rounded-full bg-gray-50 border border-gray-200 px-3 py-1 text-gunmetal/70">Nov 9–25, 2025</span>
-                    <span class="inline-flex items-center rounded-full bg-gray-50 border border-gray-200 px-3 py-1 text-gunmetal/70">Small group · All‑inclusive</span>
-                  </div>
-                  <div class="mt-4 inline-flex items-center gap-3 rounded-xl bg-gray-50 px-4 py-3 border border-gray-200">
-                    <span class="relative h-2 w-40 rounded-full bg-gray-200 overflow-hidden">
-                      <span class="progress-fill absolute inset-y-0 left-0 h-full bg-[#5FEC00]" style="width: 76%" title="19 of 25 spots"></span>
-                    </span>
-                    <span class="text-xs font-semibold text-gunmetal/70">76% full</span>
-                    <span class="text-xs text-gunmetal/70"><strong class="text-gunmetal">19</strong> joined · <span class="text-[#5FEC00] font-semibold">6 left</span></span>
-                </div>
-                  <div class="mt-6 flex flex-wrap items-center gap-3">
-                  <a href="grand-tour-2025.html" class="rounded-lg bg-[#5FEC00] px-5 py-3 text-gunmetal font-semibold hover:brightness-95">See details</a>
-                    <a href="book.html" class="rounded-lg border border-gunmetal/20 px-5 py-3 font-semibold text-gunmetal hover:bg-gunmetal/5">Reserve Spot</a>
-                  </div>
-                </div>
-              </div>
-                </div>
-            <!-- Right: gallery grid with a few larger tiles -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[16/10] md:col-span-2">
-                <img src="assets/Images/grand_tour/6.jpg" alt="Grand Tour photo 1" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/1.jpeg" alt="Grand Tour photo 2" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/2.jpeg" alt="Grand Tour photo 3" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/5.jpeg" alt="Grand Tour photo 4" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/7.jpg" alt="Grand Tour photo 5" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/8.jpg" alt="Grand Tour photo 6" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[16/10] md:col-span-2">
-                <img src="assets/Images/grand_tour/10.jpg" alt="Grand Tour photo 7" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/6.jpg" alt="Grand Tour photo 8" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/1.jpeg" alt="Grand Tour photo 9" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/2.jpeg" alt="Grand Tour photo 10" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/5.jpeg" alt="Grand Tour photo 11" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-              <div class="relative overflow-hidden rounded-lg shadow-soft aspect-[4/3]">
-                <img src="assets/Images/grand_tour/7.jpg" alt="Grand Tour photo 12" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- Bike rentals (E‑bike or regular) -->
       <section id="rent" class="pt-8 md:pt-10 pb-16 md:pb-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="mt-10 mx-auto max-w-6xl">
             <h2 class="text-3xl font-bold tracking-tight">Rent a bike</h2>
-            <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
+                <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
 
             <div class="mt-6" data-tabs>
               <div class="flex flex-wrap gap-2 border-b border-gray-200">
@@ -402,8 +404,8 @@
                       <img src="assets/Images/vtuvia-cmb-mid-drive-commuter-ebike-combo-ebike-haul-2157332.webp" alt="E‑bike photo 1" class="fade-slide active object-contain" />
                       <img src="assets/Images/CMB10S-4_23e4bf07-8732-4fa7-ab16-692ef9054b44_png.webp" alt="E‑bike photo 2" class="fade-slide object-contain" />
                       <img src="assets/Images/CMB10S-6_5fd46730-1f48-4f34-bfbb-5e3f64dae1b2.webp" alt="E‑bike photo 3" class="fade-slide object-contain" />
-                    </div>
-                  </div>
+            </div>
+          </div>
                   <div class="md:order-2 md:pl-8">
                     <div class="max-w-md">
                       <h3 class="text-xl font-semibold">Comfort touring E‑bike</h3>
@@ -442,19 +444,19 @@
                           <div class="flex flex-col items-center gap-2">
                             <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
                               <img src="assets/Images/ebikes/pump.jpg" alt="Mini pump" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
-                            </div>
+        </div>
                             <span class="text-[11px] text-gunmetal/70">Mini pump</span>
-                          </div>
+          </div>
                           <div class="flex flex-col items-center gap-2">
                             <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
                               <img src="assets/Images/ebikes/bag.png" alt="Saddle bag" class="h-10 w-10 object-contain" loading="lazy" decoding="async" />
-                            </div>
+                </div>
                             <span class="text-[11px] text-gunmetal/70">Saddle bag</span>
-                          </div>
+                </div>
                           <div class="flex flex-col items-center gap-2">
                             <div class="h-14 w-14 rounded-lg bg-white border border-gray-200 shadow-soft flex items-center justify-center">
                               <img src="assets/Images/ebikes/battery.jpg" alt="Extra battery" class="h-10 w-10 object-contain rounded" loading="lazy" decoding="async" />
-                            </div>
+              </div>
                             <span class="text-[11px] text-gunmetal/70">Extra battery</span>
                 </div>
               </div>
@@ -506,7 +508,7 @@
             <div class="space-y-4">
               <h2 class="text-3xl font-bold tracking-tight">Tailor‑made tour</h2>
               <div class="h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
-              <p class="mt-2 text-white/80">Tell us when you’ll be in Sri Lanka and what you want to experience. We’ll craft a clean, day‑by‑day plan with hotels and logistics, then send it for your review.</p>
+              <p class="mt-2 text-white/80">Tell us when you'll be in Sri Lanka and what you want to experience. We'll craft a clean, day‑by‑day plan with hotels and logistics, then send it for your review.</p>
               <div class="mt-4" id="interestTabs" data-tabs>
                 <h3 class="text-sm font-semibold text-white/90">Choose your interests</h3>
                 <div class="mt-3 flex flex-wrap gap-2 border-b border-gray-200">
@@ -623,8 +625,8 @@
                 <div class="p-8 md:p-12 md:order-1">
                   <h2 class="text-3xl font-bold tracking-tight">A note from founder</h2>
                   <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
-                  <p class="mt-4 text-gunmetal/80 leading-relaxed">Hi, I’m your host and ride lead. I started these e‑bike tours to share the Sri Lanka I know — sunrise lanes, tea country climbs, quiet lakes, and the smiles you can only find off the main road. Whether you’re here for a day or a couple of weeks, I’ll tailor the pace, stops, and stories to what you love most.</p>
-                  <p class="mt-4 text-gunmetal/70 leading-relaxed">Tell me your dates and the kind of experience you want — heritage, wildlife, coast, or a bit of everything — and I’ll send back a clean day‑by‑day plan. See you on the trail.</p>
+                  <p class="mt-4 text-gunmetal/80 leading-relaxed">Hi, I'm your host and ride lead. I started these e‑bike tours to share the Sri Lanka I know — sunrise lanes, tea country climbs, quiet lakes, and the smiles you can only find off the main road. Whether you're here for a day or a couple of weeks, I'll tailor the pace, stops, and stories to what you love most.</p>
+                  <p class="mt-4 text-gunmetal/70 leading-relaxed">Tell me your dates and the kind of experience you want — heritage, wildlife, coast, or a bit of everything — and I'll send back a clean day‑by‑day plan. See you on the trail.</p>
                   <div class="mt-5 flex items-center gap-3">
                     <img src="assets/Images/Logo.jpg" alt="Ceylon E‑Bike Tours" class="h-9 w-9 rounded-lg object-cover" loading="lazy" decoding="async" />
                     <div class="text-sm">
@@ -648,7 +650,7 @@
         <div class="grid gap-8 md:grid-cols-4">
           <div>
             <div class="flex items-center gap-2 font-semibold"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald text-gunmetal">eB</span> Ceylon E‑Bike Tours</div>
-            <p class="mt-3 text-sm text-gunmetal/70">Eco e‑bike tours across Sri Lanka’s heritage and nature.</p>
+            <p class="mt-3 text-sm text-gunmetal/70">Eco e‑bike tours across Sri Lanka's heritage and nature.</p>
           </div>
           <div>
             <h4 class="font-semibold">UK Office</h4>
@@ -676,6 +678,83 @@
     </a>
 
     <script src="assets/js/main.js"></script>
+    <script>
+      // Mapbox GL JS - Tour Map wired to calendar
+      (function(){
+        if (!document.getElementById('tourMap') || !window.mapboxgl) return;
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZWJpa2V3aXRodXMiLCJhIjoiY21laXkycHdxMDZmNjJpczZkOGUxeW9neiJ9.1getmUSOg98ymixzTcI_nw';
+
+        const locations = [
+          { day: 9,  name: 'Mirissa',       coords: [80.4540, 5.9485] },
+          { day: 10, name: 'Mirissa',       coords: [80.4540, 5.9485] },
+          { day: 11, name: 'Kirinda',       coords: [81.3319, 6.2869] },
+          { day: 12, name: 'Kirinda',       coords: [81.3319, 6.2869] },
+          { day: 13, name: 'Kirinda',       coords: [81.3319, 6.2869] },
+          { day: 14, name: 'Udawalawe',     coords: [80.8889, 6.4380] },
+          { day: 15, name: 'Nuwara Eliya',  coords: [80.7829, 6.9497] },
+          { day: 16, name: 'Ramboda',       coords: [80.6980, 7.0610] },
+          { day: 17, name: 'Kandy',         coords: [80.6337, 7.2906] },
+          { day: 18, name: 'Girithale',     coords: [80.9080, 8.0400] },
+          { day: 19, name: 'Girithale',     coords: [80.9080, 8.0400] },
+          { day: 20, name: 'Sigiriya',      coords: [80.7603, 7.9570] },
+          { day: 21, name: 'Negombo',       coords: [79.8380, 7.2140] },
+          { day: 22, name: 'Negombo',       coords: [79.8380, 7.2140] },
+          { day: 23, name: 'Negombo',       coords: [79.8380, 7.2140] }
+        ];
+
+        const map = new mapboxgl.Map({
+          container: 'tourMap',
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [80.5, 7.2],
+          zoom: 6
+        });
+        map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+
+        const bounds = new mapboxgl.LngLatBounds();
+        const dayToMarker = new Map();
+
+        locations.forEach(loc => {
+          const el = document.createElement('div');
+          el.style.width = '22px';
+          el.style.height = '22px';
+          el.style.borderRadius = '9999px';
+          el.style.background = '#5FEC00';
+          el.style.border = '2px solid #0A2E36';
+          el.style.display = 'flex';
+          el.style.alignItems = 'center';
+          el.style.justifyContent = 'center';
+          el.style.fontSize = '11px';
+          el.style.fontWeight = '700';
+          el.style.color = '#0A2E36';
+          el.style.lineHeight = '1';
+          el.style.userSelect = 'none';
+          el.textContent = String(loc.day);
+          el.title = `Day ${loc.day}: ${loc.name}`;
+
+          const marker = new mapboxgl.Marker({ element: el })
+            .setLngLat(loc.coords)
+            .setPopup(new mapboxgl.Popup({ offset: 10 }).setText(`Day ${loc.day}: ${loc.name}`))
+            .addTo(map);
+
+          dayToMarker.set(loc.day, marker);
+          bounds.extend(loc.coords);
+        });
+
+        // Fit to Sri Lanka explicitly for a clean frame
+        const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
+        map.fitBounds(sriLankaBounds, { padding: 30, linear: true });
+
+        document.addEventListener('gt:daySelected', (e) => {
+          const { day, label } = e.detail || {};
+          const marker = dayToMarker.get(day);
+          if (!marker) return;
+          const lngLat = marker.getLngLat();
+          map.easeTo({ center: lngLat, zoom: 9, duration: 800 });
+          marker.getPopup().setText(`Day ${day}: ${label || marker.getPopup().getText()}`).addTo(map);
+        });
+      })();
+    </script>
+    <script async src="https://public.codepenassets.com/embed/index.js"></script>
     <script>window.Koalendar=window.Koalendar||function(){(Koalendar.props=Koalendar.props||[]).push(arguments)};</script>
     <script async src="https://koalendar.com/assets/widget.js"></script>
     <script>

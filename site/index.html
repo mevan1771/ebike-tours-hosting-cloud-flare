@@ -689,7 +689,7 @@
 
         const map = new mapboxgl.Map({
           container: 'tourMap',
-          style: 'mapbox://styles/mapbox/streets-v12',
+          style: 'mapbox://styles/mapbox/light-v11',
           center: [80.5, 7.2],
           zoom: 6
         });
@@ -728,6 +728,49 @@
         // Fit to Sri Lanka explicitly for a clean frame
         const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
         map.fitBounds(sriLankaBounds, { padding: 30, linear: true });
+
+        // Draw cycling route using Mapbox Directions for each leg
+        map.on('load', async () => {
+          const ordered = [...locations].sort((a,b) => a.day - b.day);
+          const legs = [];
+          for (let i = 0; i < ordered.length - 1; i++) {
+            const a = ordered[i].coords;
+            const b = ordered[i+1].coords;
+            try {
+              const url = `https://api.mapbox.com/directions/v5/mapbox/cycling/${a[0]},${a[1]};${b[0]},${b[1]}?geometries=geojson&overview=full&access_token=${mapboxgl.accessToken}`;
+              const res = await fetch(url);
+              const data = await res.json();
+              const geometry = data?.routes?.[0]?.geometry;
+              if (geometry) {
+                legs.push({ type: 'Feature', properties: { leg: i+1 }, geometry });
+              }
+            } catch (e) {
+              // If the Directions API fails for any leg, skip gracefully
+            }
+          }
+
+          const routeCollection = { type: 'FeatureCollection', features: legs };
+          if (!map.getSource('gt-route')) {
+            map.addSource('gt-route', { type: 'geojson', data: routeCollection });
+          }
+          if (!map.getLayer('gt-route-casing')) {
+            map.addLayer({
+              id: 'gt-route-casing',
+              type: 'line',
+              source: 'gt-route',
+              paint: { 'line-width': 6, 'line-color': '#0A2E36', 'line-opacity': 0.25 }
+            });
+          }
+          if (!map.getLayer('gt-route')) {
+            map.addLayer({
+              id: 'gt-route',
+              type: 'line',
+              source: 'gt-route',
+              layout: { 'line-cap': 'round', 'line-join': 'round' },
+              paint: { 'line-width': 3.5, 'line-color': '#14CC60' }
+            });
+          }
+        });
 
         document.addEventListener('gt:daySelected', (e) => {
           const { day, label } = e.detail || {};

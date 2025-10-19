@@ -70,6 +70,21 @@
       /* Simple crossfade gallery for e‑bike image */
       .fade-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 600ms ease; }
       .fade-slide.active { opacity: 1; }
+      /* Expanding Flex Cards (namespaced for homepage) */
+      .gt-cards { display:flex; align-items:stretch; overflow:hidden; width:100%; max-width:1100px; height:420px; margin-left:auto; margin-right:auto; }
+      @media (max-width: 1024px){ .gt-cards{ height:380px; } }
+      @media (max-width: 768px){ .gt-cards{ height:320px; } }
+      .gt-cards .gt-card { position:relative; overflow:hidden; min-width:60px; margin:10px; cursor:pointer; transition: 500ms cubic-bezier(0.05, 0.61, 0.41, 0.95); background: var(--bg, #E6E9ED) center/auto 120% no-repeat; border-radius: 30px; }
+      .gt-cards .gt-card.active { flex-grow:10000; max-width:700px; margin:0; border-radius:40px; background-size:auto 100%; }
+      .gt-cards .gt-card:not(.active){ flex-grow:1; }
+      .gt-cards .gt-card .gt-shadow{ position:absolute; inset:auto 0 0 0; height:120px; transition:inherit; box-shadow: inset 0 -120px 0 -120px rgba(0,0,0,1), inset 0 -120px 0 -100px rgba(0,0,0,1); }
+      .gt-cards .gt-card.active .gt-shadow{ box-shadow: inset 0 -120px 120px -120px rgba(0,0,0,1), inset 0 -120px 120px -100px rgba(0,0,0,1); }
+      .gt-cards .gt-card .gt-label{ position:absolute; right:0; bottom:10px; display:flex; height:40px; transition:inherit; }
+      .gt-cards .gt-card.active .gt-label{ bottom:20px; left:20px; right:auto; }
+      .gt-cards .gt-icon{ display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:9999px; background:#fff; color:#0A2E36; }
+      .gt-cards .gt-info{ display:flex; flex-direction:column; justify-content:center; margin-left:10px; color:#fff; white-space:pre; }
+      .gt-cards .gt-info .gt-main{ font-weight:700; font-size:1.05rem; }
+      .gt-cards .gt-info .gt-sub{ opacity:.9; font-size:.85rem; }
     </style>
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
@@ -184,6 +199,51 @@
 
       
 
+      <!-- Expanding Flex Cards (after Hero) -->
+      <section class="py-10 md:py-14 bg-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="gt-cards" id="gtFlexCards">
+            <div class="gt-card active" style="--bg:url('assets/Images/day-tours/tea%20country/Castlereigh/DSC_6950.jpg')">
+              <div class="gt-shadow"></div>
+              <div class="gt-label">
+                <div class="gt-icon">🥾</div>
+                <div class="gt-info"><div class="gt-main">Day 1</div><div class="gt-sub">Highlights</div></div>
+              </div>
+            </div>
+            <div class="gt-card" style="--bg:url('assets/Images/day-tours/kandy/temple-sacred-tooth-relic-kandy-sri-lanka.jpg')">
+              <div class="gt-shadow"></div>
+              <div class="gt-label"><div class="gt-icon">🏛️</div><div class="gt-info"><div class="gt-main">Kandy</div><div class="gt-sub">Heritage</div></div></div>
+            </div>
+            <div class="gt-card" style="--bg:url('assets/Images/day-tours/sigiriya/sigiriya-459197_1920%20(1).jpg')">
+              <div class="gt-shadow"></div>
+              <div class="gt-label"><div class="gt-icon">🗺️</div><div class="gt-info"><div class="gt-main">Sigiriya</div><div class="gt-sub">Lion Rock</div></div></div>
+            </div>
+            <div class="gt-card" style="--bg:url('assets/Images/day-tours/ella/demodara-nine-arch-bridge-ella-sri-lanka-scaled-1_77c0b1eb-4170-472a-b6df-950903726734.jpg')">
+              <div class="gt-shadow"></div>
+              <div class="gt-label"><div class="gt-icon">🌿</div><div class="gt-info"><div class="gt-main">Ella</div><div class="gt-sub">Nine Arches</div></div></div>
+            </div>
+            <div class="gt-card" style="--bg:url('assets/Images/day-tours/galle/galle-fort.jpg')">
+              <div class="gt-shadow"></div>
+              <div class="gt-label"><div class="gt-icon">🌊</div><div class="gt-info"><div class="gt-main">Galle</div><div class="gt-sub">Coastal</div></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        // Expanding Flex Cards interaction
+        (function(){
+          const container = document.getElementById('gtFlexCards');
+          if(!container) return;
+          container.addEventListener('click', (e)=>{
+            const card = e.target.closest('.gt-card');
+            if(!card) return;
+            container.querySelectorAll('.gt-card').forEach(el=>el.classList.remove('active'));
+            card.classList.add('active');
+          });
+        })();
+      </script>
+
       <!-- Featured Tours moved below Grand Tour -->
 
       <!-- Grand Tour 2025 Promo -->
@@ -267,7 +327,7 @@
             <div class="relative rounded-xl overflow-hidden h-[360px] md:h-[480px]">
                 <div id="tourMap" class="absolute inset-0"></div>
               </div>
-            </div>
+              </div>
           </div>
           
         </div>

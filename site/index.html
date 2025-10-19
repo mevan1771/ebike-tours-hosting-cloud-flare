@@ -201,6 +201,10 @@
               <div class="md:pr-6">
                 <div class="max-w-3xl md:max-w-none">
                   <p class="mb-4 text-gunmetal/80">17 days across Sri Lanka on modern e‑bikes — curated hotels, meals and transfers included. From the cinnamon coast to tea‑covered hills and ancient capitals, ride 30–60 km a day at your pace with a support van, premium e‑bikes and a friendly local guide handling the logistics.</p>
+                  <!-- Dynamic day photo -->
+                  <div class="mt-4 rounded-2xl border border-gray-200 bg-white shadow-soft overflow-hidden">
+                    <img id="gt-photo" src="assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg" alt="Grand Tour day photo" class="w-full h-48 sm:h-56 md:h-60 object-cover" loading="lazy" decoding="async" />
+                  </div>
 
                   
 
@@ -781,6 +785,31 @@
           const lngLat = marker.getLngLat();
           map.easeTo({ center: lngLat, zoom: 9, duration: 800 });
           marker.getPopup().setText(`Day ${day}: ${label || marker.getPopup().getText()}`).addTo(map);
+          // Update dynamic photo on the left
+          const photo = document.getElementById('gt-photo');
+          if (photo) {
+            const dayToSrc = {
+              9: 'assets/Images/grand_tour/Day%209%20Kandy.jpg',
+              10: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg',
+              11: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
+              12: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
+              13: 'assets/Images/grand_tour/Day%2013%20Polonnaruwa.jpg',
+              14: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
+              15: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
+              16: 'assets/Images/grand_tour/Day%208%20Ramboda.jpg',
+              17: 'assets/Images/grand_tour/Day%207%20nuwara%20eliya.jpg',
+              18: 'assets/Images/grand_tour/Day%206%20Udawalawe.png',
+              19: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg',
+              20: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
+              21: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
+              22: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
+              23: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg',
+              24: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg',
+              25: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg'
+            };
+            const src = dayToSrc[day];
+            if (src) photo.src = src;
+          }
         });
       })();
     </script>

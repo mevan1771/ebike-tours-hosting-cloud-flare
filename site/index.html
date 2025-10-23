@@ -196,6 +196,29 @@
             <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
           </div>
           
+          <!-- Full-width Tour Map with overlay card -->
+          <div class="mt-6 -mx-4 sm:-mx-6 lg:mx-0">
+            <div class="relative rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
+              <div id="tourMapFull" class="h-[420px] md:h-[520px] lg:h-[600px] w-full"></div>
+              <!-- Floating info card -->
+              <div class="absolute left-3 top-3 md:left-6 md:top-6 w-[280px] md:w-[360px]">
+                <div class="rounded-2xl overflow-hidden shadow-soft bg-gunmetal/90 text-white backdrop-blur">
+                  <img id="poiCardImg" src="assets/Images/Enjoying-the-ride-1064249-500px.jpg" alt="Location photo" class="h-36 w-full object-cover md:h-44" />
+                  <div class="p-4">
+                    <div id="poiCardTag" class="text-[10px] font-semibold tracking-widest uppercase text-white/60">Destination</div>
+                    <div id="poiCardTitle" class="mt-1 text-lg md:text-xl font-semibold">Mirissa</div>
+                    <div id="poiCardSubtitle" class="mt-1 text-xs md:text-sm text-white/80">Beachside start: palms, bays and seafood.</div>
+                    <a id="poiCardLink" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-emerald">Open in maps</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Floating day selector -->
+              <div class="absolute right-3 top-3 md:right-6 md:top-6">
+                <div id="gt-day-row-floating" class="flex flex-wrap gap-1.5 rounded-full bg-white/90 backdrop-blur px-2 py-2 shadow-soft"></div>
+              </div>
+            </div>
+          </div>
+          
           <div class="grid gap-5 md:grid-cols-[1.1fr_0.9fr] items-start">
               <div class="md:order-1">
               <div class="md:pr-4">
@@ -690,9 +713,13 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-      // Mapbox GL JS - Tour Map wired to calendar
+      // Mapbox GL JS - Full-width dark map with floating card and day selector
       (function(){
-        if (!document.getElementById('tourMap') || !window.mapboxgl) return;
+        if (!window.mapboxgl) return;
+        const fullEl = document.getElementById('tourMapFull');
+        const inlineEl = document.getElementById('tourMap');
+        // Prefer full-width map when present
+        if (!fullEl && !inlineEl) return;
         mapboxgl.accessToken = 'pk.eyJ1IjoiZWJpa2V3aXRodXMiLCJhIjoiY21laXkycHdxMDZmNjJpczZkOGUxeW9neiJ9.1getmUSOg98ymixzTcI_nw';
 
         const locations = [
@@ -713,12 +740,9 @@
           { day: 23, name: 'Negombo',       coords: [79.8380, 7.2140] }
         ];
 
-        const map = new mapboxgl.Map({
-          container: 'tourMap',
-          style: 'mapbox://styles/mapbox/streets-v12',
-          center: [80.5, 7.2],
-          zoom: 6
-        });
+        const containerId = fullEl ? 'tourMapFull' : 'tourMap';
+        const style = fullEl ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v12';
+        const map = new mapboxgl.Map({ container: containerId, style, center: [80.5, 7.2], zoom: 6 });
         map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
 
         const bounds = new mapboxgl.LngLatBounds();
@@ -729,14 +753,14 @@
           el.style.width = '22px';
           el.style.height = '22px';
           el.style.borderRadius = '9999px';
-          el.style.background = '#5FEC00';
-          el.style.border = '2px solid #0A2E36';
+          el.style.background = fullEl ? '#C6FF00' : '#5FEC00';
+          el.style.border = fullEl ? '2px solid #1F2937' : '2px solid #0A2E36';
           el.style.display = 'flex';
           el.style.alignItems = 'center';
           el.style.justifyContent = 'center';
           el.style.fontSize = '11px';
           el.style.fontWeight = '700';
-          el.style.color = '#0A2E36';
+          el.style.color = fullEl ? '#111827' : '#0A2E36';
           el.style.lineHeight = '1';
           el.style.userSelect = 'none';
           el.textContent = String(loc.day);
@@ -753,7 +777,7 @@
 
         // Fit to Sri Lanka explicitly for a clean frame
         const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
-        map.fitBounds(sriLankaBounds, { padding: 30, linear: true });
+        map.fitBounds(sriLankaBounds, { padding: fullEl ? 60 : 30, linear: true });
 
         // Draw cycling route using Mapbox Directions for each leg
         map.on('load', async () => {
@@ -793,10 +817,62 @@
               type: 'line',
               source: 'gt-route',
               layout: { 'line-cap': 'round', 'line-join': 'round' },
-              paint: { 'line-width': 3.5, 'line-color': '#14CC60' }
+              paint: { 'line-width': 4, 'line-color': fullEl ? '#C6FF00' : '#14CC60' }
             });
           }
         });
+
+        function updateCard(day, label){
+          const photo = document.getElementById('poiCardImg');
+          const title = document.getElementById('poiCardTitle');
+          const subtitle = document.getElementById('poiCardSubtitle');
+          const link = document.getElementById('poiCardLink');
+          const mapping = {
+            9:  { title: 'Mirissa', photo: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg', sub: 'Beachside start: palms, bays and seafood.', link: 'https://maps.google.com/?q=Mirissa' },
+            10: { title: 'Mirissa', photo: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg', sub: 'Beachside start: palms, bays and seafood.', link: 'https://maps.google.com/?q=Mirissa' },
+            11: { title: 'Kirinda', photo: 'assets/Images/grand_tour/Day%2013%20Polonnaruwa.jpg', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+            12: { title: 'Kirinda', photo: 'assets/Images/grand_tour/Day%2013%20Polonnaruwa.jpg', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+            13: { title: 'Kirinda', photo: 'assets/Images/grand_tour/Day%2013%20Polonnaruwa.jpg', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+            14: { title: 'Udawalawe', photo: 'assets/Images/grand_tour/Day%206%20Udawalawe.png', sub: 'Elephants and vast reservoirs.', link: 'https://maps.google.com/?q=Udawalawe' },
+            15: { title: 'Nuwara Eliya', photo: 'assets/Images/grand_tour/Day%207%20nuwara%20eliya.jpg', sub: 'Tea hills and cool climate town.', link: 'https://maps.google.com/?q=Nuwara+Eliya' },
+            16: { title: 'Ramboda', photo: 'assets/Images/grand_tour/Day%208%20Ramboda.jpg', sub: 'Waterfalls and winding roads.', link: 'https://maps.google.com/?q=Ramboda' },
+            17: { title: 'Kandy', photo: 'assets/Images/grand_tour/Day%209%20Kandy.jpg', sub: 'Temple of the Tooth and lake ring.', link: 'https://maps.google.com/?q=Kandy' },
+            18: { title: 'Girithale', photo: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg', sub: 'Lakeside rest near Polonnaruwa.', link: 'https://maps.google.com/?q=Girithale' },
+            19: { title: 'Girithale', photo: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg', sub: 'Lakeside rest near Polonnaruwa.', link: 'https://maps.google.com/?q=Girithale' },
+            20: { title: 'Sigiriya', photo: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg', sub: 'Lion Rock fortress and villages.', link: 'https://maps.google.com/?q=Sigiriya' },
+            21: { title: 'Negombo', photo: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' },
+            22: { title: 'Negombo', photo: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' },
+            23: { title: 'Negombo', photo: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' }
+          };
+          if (photo && mapping[day]) {
+            photo.src = mapping[day].photo;
+            if (title) title.textContent = mapping[day].title;
+            if (subtitle) subtitle.textContent = mapping[day].sub;
+            if (link) link.href = mapping[day].link;
+          }
+        }
+
+        // Render floating day selector if full-width map exists
+        if (fullEl) {
+          const row = document.getElementById('gt-day-row-floating');
+          if (row) {
+            const days = locations.map(l => l.day);
+            days.forEach(d => {
+              const btn = document.createElement('button');
+              btn.textContent = d;
+              btn.className = 'h-7 w-7 rounded-full bg-[#C6FF00] text-[11px] font-semibold text-gunmetal hover:brightness-95';
+              btn.addEventListener('click', () => {
+                const marker = dayToMarker.get(d);
+                if (!marker) return;
+                const lngLat = marker.getLngLat();
+                map.easeTo({ center: lngLat, zoom: 9, duration: 800 });
+                updateCard(d);
+                document.dispatchEvent(new CustomEvent('gt:daySelected', { detail: { day: d } }));
+              });
+              row.appendChild(btn);
+            });
+          }
+        }
 
         document.addEventListener('gt:daySelected', (e) => {
           const { day, label } = e.detail || {};
@@ -805,31 +881,7 @@
           const lngLat = marker.getLngLat();
           map.easeTo({ center: lngLat, zoom: 9, duration: 800 });
           marker.getPopup().setText(`Day ${day}: ${label || marker.getPopup().getText()}`).addTo(map);
-          // Update dynamic photo on the left
-          const photo = document.getElementById('gt-photo');
-          if (photo) {
-            const dayToSrc = {
-              9: 'assets/Images/grand_tour/Day%209%20Kandy.jpg',
-              10: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg',
-              11: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
-              12: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
-              13: 'assets/Images/grand_tour/Day%2013%20Polonnaruwa.jpg',
-              14: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
-              15: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
-              16: 'assets/Images/grand_tour/Day%208%20Ramboda.jpg',
-              17: 'assets/Images/grand_tour/Day%207%20nuwara%20eliya.jpg',
-              18: 'assets/Images/grand_tour/Day%206%20Udawalawe.png',
-              19: 'assets/Images/grand_tour/Day%2010%20%26%2019%20Girithale.jpg',
-              20: 'assets/Images/grand_tour/Day%2012%20Sigiriya.jpg',
-              21: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
-              22: 'assets/Images/grand_tour/Day%2014%20%26%2015%20Negambo.jpg',
-              23: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg',
-              24: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg',
-              25: 'assets/Images/grand_tour/Day%201%20%26%202%20Mirrissa.jpg'
-            };
-            const src = dayToSrc[day];
-            if (src) photo.src = src;
-          }
+          updateCard(day, label);
         });
       })();
     </script>

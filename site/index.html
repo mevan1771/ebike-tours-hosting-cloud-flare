@@ -741,7 +741,7 @@
         ];
 
         const containerId = fullEl ? 'tourMapFull' : 'tourMap';
-        const style = fullEl ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v12';
+        const style = 'mapbox://styles/mapbox/streets-v12';
         const map = new mapboxgl.Map({ container: containerId, style, center: [80.5, 7.2], zoom: 6 });
         map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
 
@@ -753,14 +753,14 @@
           el.style.width = '22px';
           el.style.height = '22px';
           el.style.borderRadius = '9999px';
-          el.style.background = fullEl ? '#C6FF00' : '#5FEC00';
-          el.style.border = fullEl ? '2px solid #1F2937' : '2px solid #0A2E36';
+          el.style.background = '#5FEC00';
+          el.style.border = '2px solid #0A2E36';
           el.style.display = 'flex';
           el.style.alignItems = 'center';
           el.style.justifyContent = 'center';
           el.style.fontSize = '11px';
           el.style.fontWeight = '700';
-          el.style.color = fullEl ? '#111827' : '#0A2E36';
+          el.style.color = '#0A2E36';
           el.style.lineHeight = '1';
           el.style.userSelect = 'none';
           el.textContent = String(loc.day);
@@ -777,7 +777,7 @@
 
         // Fit to Sri Lanka explicitly for a clean frame
         const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
-        map.fitBounds(sriLankaBounds, { padding: fullEl ? 60 : 30, linear: true });
+        map.fitBounds(sriLankaBounds, { padding: 30, linear: true });
 
         // Draw cycling route using Mapbox Directions for each leg
         map.on('load', async () => {
@@ -817,7 +817,7 @@
               type: 'line',
               source: 'gt-route',
               layout: { 'line-cap': 'round', 'line-join': 'round' },
-              paint: { 'line-width': 4, 'line-color': fullEl ? '#C6FF00' : '#14CC60' }
+              paint: { 'line-width': 3.5, 'line-color': '#14CC60' }
             });
           }
         });

@@ -196,25 +196,29 @@
             <div class="mt-2 h-[3px] w-16 rounded-full bg-emerald grow-x"></div>
           </div>
           
-          <!-- Full-width Tour Map with overlay card -->
+          <!-- Full-width Tour Map with left card sidebar (not overlay) -->
           <div class="mt-6 -mx-4 sm:-mx-6 lg:mx-0">
-            <div class="relative rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
-              <div id="tourMapFull" class="h-[420px] md:h-[520px] lg:h-[600px] w-full"></div>
-              <!-- Floating info card -->
-              <div class="absolute left-3 top-3 md:left-6 md:top-6 w-[280px] md:w-[360px]">
-                <div class="rounded-2xl overflow-hidden shadow-soft bg-gunmetal/90 text-white backdrop-blur">
-                  <img id="poiCardImg" src="assets/Images/Enjoying-the-ride-1064249-500px.jpg" alt="Location photo" class="h-36 w-full object-cover md:h-44" />
-                  <div class="p-4">
-                    <div id="poiCardTag" class="text-[10px] font-semibold tracking-widest uppercase text-white/60">Destination</div>
-                    <div id="poiCardTitle" class="mt-1 text-lg md:text-xl font-semibold">Mirissa</div>
-                    <div id="poiCardSubtitle" class="mt-1 text-xs md:text-sm text-white/80">Beachside start: palms, bays and seafood.</div>
-                    <a id="poiCardLink" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-emerald">Open in maps</a>
+            <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
+              <div class="grid md:grid-cols-[340px_1fr]">
+                <!-- Left: info card fills full height -->
+                <div class="bg-gunmetal text-white">
+                  <div class="h-full flex flex-col">
+                    <img id="poiCardImg" src="assets/Images/Enjoying-the-ride-1064249-500px.jpg" alt="Location photo" class="h-40 w-full object-cover md:h-56" />
+                    <div class="p-5 md:p-6">
+                      <div id="poiCardTag" class="text-[10px] font-semibold tracking-widest uppercase text-white/70">Destination</div>
+                      <div id="poiCardTitle" class="mt-1 text-xl font-semibold">Mirissa</div>
+                      <div id="poiCardSubtitle" class="mt-2 text-sm text-white/85">Beachside start: palms, bays and seafood.</div>
+                      <a id="poiCardLink" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-emerald">Open in maps</a>
+                      <div class="mt-4">
+                        <div id="gt-day-row-floating" class="flex flex-wrap gap-1.5"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- Floating day selector -->
-              <div class="absolute right-3 top-3 md:right-6 md:top-6">
-                <div id="gt-day-row-floating" class="flex flex-wrap gap-1.5 rounded-full bg-white/90 backdrop-blur px-2 py-2 shadow-soft"></div>
+                <!-- Right: full map -->
+                <div class="bg-white">
+                  <div id="tourMapFull" class="h-[420px] md:h-[520px] lg:h-[600px] w-full"></div>
+                </div>
               </div>
             </div>
           </div>

@@ -203,6 +203,27 @@
               <div>
                 <div class="max-w-3xl md:max-w-none">
                   <p class="mb-4 text-gunmetal/80">17 days across Sri Lanka on modern e‑bikes — curated hotels, meals and transfers included. From the cinnamon coast to tea‑covered hills and ancient capitals, ride 30–60 km a day at your pace with a support van, premium e‑bikes and a friendly local guide handling the logistics.</p>
+                  <!-- Grand Tour calendar row (rounded day chips) -->
+                  <div class="mt-4">
+                    <div id="gt-calendar-info" class="text-sm font-medium text-gunmetal/70">Select a date to preview.</div>
+                    <div id="gt-day-row" class="mt-2 flex flex-wrap gap-1.5">
+                      <button type="button" data-day="9" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">9</button>
+                      <button type="button" data-day="10" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">10</button>
+                      <button type="button" data-day="11" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">11</button>
+                      <button type="button" data-day="12" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">12</button>
+                      <button type="button" data-day="13" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">13</button>
+                      <button type="button" data-day="14" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">14</button>
+                      <button type="button" data-day="15" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">15</button>
+                      <button type="button" data-day="16" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">16</button>
+                      <button type="button" data-day="17" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">17</button>
+                      <button type="button" data-day="18" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">18</button>
+                      <button type="button" data-day="19" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">19</button>
+                      <button type="button" data-day="20" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">20</button>
+                      <button type="button" data-day="21" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">21</button>
+                      <button type="button" data-day="22" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">22</button>
+                      <button type="button" data-day="23" class="h-8 w-8 rounded-full bg-[#C6FF00] text-[12px] font-semibold text-gunmetal hover:brightness-95">23</button>
+                    </div>
+                  </div>
                   <div class="mt-4 max-w-md md:max-w-lg">
                     <h3 class="text-xs font-semibold tracking-widest text-gunmetal/60 uppercase">Tour Highlights</h3>
                     <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2">
@@ -236,9 +257,6 @@
                          <div id="poiCardTitle" class="mt-1 text-xl font-semibold">Mirissa</div>
                          <div id="poiCardSubtitle" class="mt-2 text-sm text-white/85">Beachside start: palms, bays and seafood.</div>
                          <a id="poiCardLink" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-emerald">Open in maps</a>
-                         <div class="mt-4">
-                           <div id="gt-day-row-floating" class="flex flex-wrap gap-1.5"></div>
-                         </div>
                        </div>
                      </div>
               </div>
@@ -783,27 +801,7 @@
           }
         }
 
-        // Render floating day selector if full-width map exists
-        if (fullEl) {
-          const row = document.getElementById('gt-day-row-floating');
-          if (row) {
-            const days = locations.map(l => l.day);
-            days.forEach(d => {
-              const btn = document.createElement('button');
-              btn.textContent = d;
-              btn.className = 'h-7 w-7 rounded-full bg-[#C6FF00] text-[11px] font-semibold text-gunmetal hover:brightness-95';
-              btn.addEventListener('click', () => {
-                const marker = dayToMarker.get(d);
-                if (!marker) return;
-                const lngLat = marker.getLngLat();
-                map.easeTo({ center: lngLat, zoom: 9, duration: 800 });
-                updateCard(d);
-                document.dispatchEvent(new CustomEvent('gt:daySelected', { detail: { day: d } }));
-              });
-              row.appendChild(btn);
-            });
-          }
-        }
+        // Removed floating day selector; using calendar below paragraph instead
 
         document.addEventListener('gt:daySelected', (e) => {
           const { day, label } = e.detail || {};

@@ -763,55 +763,32 @@
         const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
         map.fitBounds(sriLankaBounds, { padding: fullEl ? 60 : 30, linear: true });
 
-        // Draw simple arced jump-lines between consecutive locations (no turn-by-turn routes)
+        // Draw simple straight dashed jump-lines between consecutive locations
         map.on('load', () => {
           const ordered = [...locations].sort((a,b) => a.day - b.day);
-
-          function generateArc(a, b, curvature = 0.18, steps = 28) {
-            const [x0, y0] = a;
-            const [x2, y2] = b;
-            const mx = (x0 + x2) / 2;
-            const my = (y0 + y2) / 2;
-            const dx = x2 - x0;
-            const dy = y2 - y0;
-            const dist = Math.sqrt(dx*dx + dy*dy) || 0.0001;
-            const nx = -dy / dist; // unit perpendicular
-            const ny =  dx / dist;
-            const offset = curvature * dist;
-            const cx = mx + nx * offset; // control point x
-            const cy = my + ny * offset; // control point y
-
-            const coords = [];
-            for (let i = 0; i <= steps; i++) {
-              const t = i / steps; // quadratic bezier interpolation
-              const x = (1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * cx + t * t * x2;
-              const y = (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * cy + t * t * y2;
-              coords.push([x, y]);
-            }
-            return coords;
-          }
 
           const features = [];
           for (let i = 0; i < ordered.length - 1; i++) {
             const a = ordered[i].coords;
             const b = ordered[i+1].coords;
-            const coords = generateArc(a, b, 0.2, 32);
             features.push({
               type: 'Feature',
               properties: { leg: i + 1 },
-              geometry: { type: 'LineString', coordinates: coords }
+              geometry: { type: 'LineString', coordinates: [a, b] }
             });
           }
 
-          const arcCollection = { type: 'FeatureCollection', features };
+          const lineCollection = { type: 'FeatureCollection', features };
           if (!map.getSource('gt-arc')) {
-            map.addSource('gt-arc', { type: 'geojson', data: arcCollection });
+            map.addSource('gt-arc', { type: 'geojson', data: lineCollection });
+          } else {
+            map.getSource('gt-arc').setData(lineCollection);
           }
           if (!map.getLayer('gt-arc-casing')) {
-            map.addLayer({ id: 'gt-arc-casing', type: 'line', source: 'gt-arc', paint: { 'line-width': 5, 'line-color': '#0A2E36', 'line-opacity': 0.15 } });
+            map.addLayer({ id: 'gt-arc-casing', type: 'line', source: 'gt-arc', paint: { 'line-width': 4, 'line-color': '#0A2E36', 'line-opacity': 0.12 } });
           }
           if (!map.getLayer('gt-arc')) {
-            map.addLayer({ id: 'gt-arc', type: 'line', source: 'gt-arc', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-width': 3, 'line-color': '#14CC60', 'line-dasharray': [2, 1.4] } });
+            map.addLayer({ id: 'gt-arc', type: 'line', source: 'gt-arc', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-width': 2.5, 'line-color': '#14CC60', 'line-dasharray': [1.2, 1.2], 'line-opacity': 0.9 } });
           }
         });
 

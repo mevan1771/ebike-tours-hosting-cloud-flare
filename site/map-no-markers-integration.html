@@ -1,0 +1,164 @@
+<!-- 
+  HOW TO RECREATE MAP SECTION WITHOUT GREEN CIRCLES (MARKERS)
+  
+  This shows the simplified code you'd use in your index.html
+-->
+
+<!-- 1. HTML Structure (same as before) -->
+<div class="grid md:grid-cols-[320px_1fr]">
+  <div class="bg-gunmetal text-white">
+    <!-- Calendar and info card stay the same -->
+    <div class="p-5 md:p-6">
+      <div id="poiCardTitle">Day 1: Mirissa</div>
+      <div id="poiCardSubtitle">Beachside start: palms, bays and seafood.</div>
+    </div>
+  </div>
+  <div class="bg-white">
+    <div id="tourMapFull" class="h-[340px] md:h-[440px] lg:h-[520px] w-full"></div>
+  </div>
+</div>
+
+<!-- 2. Simplified JavaScript (replace the existing map script) -->
+<script>
+  (function(){
+    if (!window.mapboxgl) return;
+    const mapEl = document.getElementById('tourMapFull');
+    if (!mapEl) return;
+
+    // Your Mapbox access token
+    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN_HERE';
+
+    // Location coordinates (for route lines and panning)
+    const locations = {
+      9:  { name: 'Mirissa',       coords: [80.4540, 5.9485] },
+      10: { name: 'Mirissa',       coords: [80.4540, 5.9485] },
+      11: { name: 'Kirinda',       coords: [81.3319, 6.2869] },
+      12: { name: 'Kirinda',       coords: [81.3319, 6.2869] },
+      13: { name: 'Kirinda',       coords: [81.3319, 6.2869] },
+      14: { name: 'Udawalawe',     coords: [80.8889, 6.4380] },
+      15: { name: 'Nuwara Eliya',  coords: [80.7829, 6.9497] },
+      16: { name: 'Ramboda',       coords: [80.6980, 7.0610] },
+      17: { name: 'Kandy',         coords: [80.6337, 7.2906] },
+      18: { name: 'Girithale',     coords: [80.9080, 8.0400] },
+      19: { name: 'Girithale',     coords: [80.9080, 8.0400] },
+      20: { name: 'Sigiriya',      coords: [80.7603, 7.9570] },
+      21: { name: 'Negombo',       coords: [79.8380, 7.2140] },
+      22: { name: 'Negombo',       coords: [79.8380, 7.2140] },
+      23: { name: 'Negombo',       coords: [79.8380, 7.2140] }
+    };
+
+    // Initialize map
+    const map = new mapboxgl.Map({
+      container: 'tourMapFull',
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [80.5, 7.2], // Sri Lanka center
+      zoom: 6
+    });
+
+    // Add zoom controls
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+
+    // Fit to Sri Lanka bounds
+    map.on('load', () => {
+      const sriLankaBounds = new mapboxgl.LngLatBounds([79.4, 5.6], [82.0, 9.9]);
+      map.fitBounds(sriLankaBounds, { padding: 60, linear: true });
+
+      // OPTIONAL: Draw route lines (without markers)
+      const ordered = Object.entries(locations)
+        .sort((a, b) => Number(a[0]) - Number(b[0]))
+        .map(([day, loc]) => loc);
+
+      const features = [];
+      for (let i = 0; i < ordered.length - 1; i++) {
+        features.push({
+          type: 'Feature',
+          properties: { leg: i + 1 },
+          geometry: {
+            type: 'LineString',
+            coordinates: [ordered[i].coords, ordered[i + 1].coords]
+          }
+        });
+      }
+
+      const lineCollection = { type: 'FeatureCollection', features };
+      map.addSource('gt-route', { type: 'geojson', data: lineCollection });
+      
+      // Route line styling
+      map.addLayer({
+        id: 'gt-route-casing',
+        type: 'line',
+        source: 'gt-route',
+        paint: {
+          'line-width': 4,
+          'line-color': '#0A2E36',
+          'line-opacity': 0.12
+        }
+      });
+      
+      map.addLayer({
+        id: 'gt-route',
+        type: 'line',
+        source: 'gt-route',
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-width': 2.5,
+          'line-color': '#14CC60',
+          'line-dasharray': [1.2, 1.2],
+          'line-opacity': 0.9
+        }
+      });
+    });
+
+    // Update info card function (same as before)
+    function updateCard(day, label) {
+      const title = document.getElementById('poiCardTitle');
+      const subtitle = document.getElementById('poiCardSubtitle');
+      const link = document.getElementById('poiCardLink');
+      
+      const mapping = {
+        9:  { title: 'Mirissa', sub: 'Beachside start: palms, bays and seafood.', link: 'https://maps.google.com/?q=Mirissa' },
+        10: { title: 'Mirissa', sub: 'Beachside start: palms, bays and seafood.', link: 'https://maps.google.com/?q=Mirissa' },
+        11: { title: 'Kirinda', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+        12: { title: 'Kirinda', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+        13: { title: 'Kirinda', sub: 'Safari gateway and dunes by the sea.', link: 'https://maps.google.com/?q=Kirinda' },
+        14: { title: 'Udawalawe', sub: 'Elephants and vast reservoirs.', link: 'https://maps.google.com/?q=Udawalawe' },
+        15: { title: 'Nuwara Eliya', sub: 'Tea hills and cool climate town.', link: 'https://maps.google.com/?q=Nuwara+Eliya' },
+        16: { title: 'Ramboda', sub: 'Waterfalls and winding roads.', link: 'https://maps.google.com/?q=Ramboda' },
+        17: { title: 'Kandy', sub: 'Temple of the Tooth and lake ring.', link: 'https://maps.google.com/?q=Kandy' },
+        18: { title: 'Girithale', sub: 'Lakeside rest near Polonnaruwa.', link: 'https://maps.google.com/?q=Girithale' },
+        19: { title: 'Girithale', sub: 'Lakeside rest near Polonnaruwa.', link: 'https://maps.google.com/?q=Girithale' },
+        20: { title: 'Sigiriya', sub: 'Lion Rock fortress and villages.', link: 'https://maps.google.com/?q=Sigiriya' },
+        21: { title: 'Negombo', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' },
+        22: { title: 'Negombo', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' },
+        23: { title: 'Negombo', sub: 'Canals, lagoons and seafood.', link: 'https://maps.google.com/?q=Negombo' }
+      };
+      
+      if (mapping[day]) {
+        if (title) title.textContent = 'Day ' + (day - 8) + ': ' + mapping[day].title;
+        if (subtitle) subtitle.textContent = mapping[day].sub;
+        if (link) link.href = mapping[day].link;
+      }
+    }
+
+    // Listen for calendar day clicks (pan to location, no marker popup)
+    document.addEventListener('gt:daySelected', (e) => {
+      const { day, label } = e.detail || {};
+      const location = locations[day];
+      if (!location) return;
+      
+      // Pan to location (smooth animation)
+      map.easeTo({
+        center: location.coords,
+        zoom: 9,
+        duration: 800
+      });
+      
+      // Update info card
+      updateCard(day, label);
+    });
+  })();
+</script>
+

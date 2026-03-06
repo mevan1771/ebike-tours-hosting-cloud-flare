@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expanding Flex Cards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+  <body>
+    <div class="carousel" aria-label="15-day gallery">
+      <button class="nav prev" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="track" id="galleryTrack">
+        <!-- pages will be injected by script.js -->
+      </div>
+      <button class="nav next" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <div class="dots" id="galleryDots"></div>
+    </div>
+
+    <a href="#" class="credit">Your photos</a>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

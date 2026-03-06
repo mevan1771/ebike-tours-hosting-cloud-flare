@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Component Example</title>
+
+    <!-- 1. Include the Booking CSS -->
+    <link rel="stylesheet" href="tour-booking.css">
+
+    <!-- Optional: Include FontAwesome for icons used in the widget -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f7f4ef;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Tour Booking Widget</h2>
+
+        <!-- 2. Create a container element with an ID where the widget will be rendered -->
+        <div id="bookingWidget"></div>
+    </div>
+
+    <!-- 3. Include the Required Scripts in Order -->
+    <script src="tours-data.js"></script>
+    <script src="tour-utils.js"></script>
+    <script src="tour-booking.js"></script>
+
+    <!-- 4. Initialize the Booking Widget -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Configuration for the global calendar sync (Optional but recommended)
+            window.GLOBAL_CONFIG = {
+                calendarBridgeUrl: "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE", // Optional: For automatic Google Calendar sync
+                calendarUrl: "YOUR_ICAL_URL_HERE", // Example: https://calendar.google.com/calendar/ical/.../public/basic.ics
+                corsProxy: "https://api.allorigins.win/raw?url=" // Needed if fetching iCal client-side to bypass CORS
+            };
+
+            // Initialize the booking class
+            // Make sure the tourId matches a key in your tours-data.js
+            const bookingDesktop = new TourBooking({
+                tourId: 'sigiriya', // Example tour ID
+                basePrice: TOURS_DATA['sigiriya'] ? TOURS_DATA['sigiriya'].price : 89,
+                containerId: 'bookingWidget', // Must match the ID of the div above
+                formAction: 'https://formsubmit.co/your@email.com', // Replace with your form handler
+                guideImage: 'https://via.placeholder.com/150', // Replace with actual guide image path
+                guideName: 'Nuwan',
+                tourName: TOURS_DATA['sigiriya'] ? TOURS_DATA['sigiriya'].name : 'Sigiriya Rock',
+                joinDiscount: 0.25 // 25% discount for joining an existing group
+            });
+        });
+    </script>
+
+</body>
+
+</html>

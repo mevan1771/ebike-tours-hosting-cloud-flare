@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="assets/booking/tour-booking.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
     window.tailwind = window.tailwind || {};
@@ -565,8 +567,7 @@
                 <div class="flex items-center gap-2">
                   <a href="tour-ancient-cities.html"
                     class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
-                  <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button"
-                    data-koa-icon="none" data-koa-shape="rounded"
+                  <a href="#" onclick="openHomeBooking('sigiriya'); return false;"
                     style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block"
                     class="hover:brightness-95">Book now</a>
                 </div>
@@ -606,8 +607,7 @@
                 <div class="flex items-center gap-2">
                   <a href="tour-tea-country.html"
                     class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
-                  <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button"
-                    data-koa-icon="none" data-koa-shape="rounded"
+                  <a href="#" onclick="openHomeBooking('adams-peak'); return false;"
                     style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block"
                     class="hover:brightness-95">Book now</a>
                 </div>
@@ -635,8 +635,7 @@
                 <div class="flex items-center gap-2">
                   <a href="tour-castlereigh.html"
                     class="rounded-lg bg-[#5FEC00] px-4 py-2 text-gunmetal font-semibold hover:brightness-95">View</a>
-                  <a href="https://koalendar.com/e/dambulla" data-koalendar-widget data-koa-type="button"
-                    data-koa-icon="none" data-koa-shape="rounded"
+                  <a href="#" onclick="openHomeBooking('kandy'); return false;"
                     style="background-color:#0A2E36;color:#FFFFFF;border-radius:0.5rem;padding:0.5rem 1rem;font-weight:600;line-height:1.25rem;display:inline-block"
                     class="hover:brightness-95">Book now</a>
                 </div>
@@ -648,7 +647,7 @@
       </div>
     </section>
 
-    
+
 
     <!-- Tailor‑made Tour Request -->
     <section id="tailor" class="bg-gunmetal py-12 text-white">
@@ -1134,10 +1133,43 @@
       })();
   </script>
   <script async src="https://public.codepenassets.com/embed/index.js"></script>
-  <script>window.Koalendar = window.Koalendar || function () { (Koalendar.props = Koalendar.props || []).push(arguments) };</script>
-  <script async src="https://koalendar.com/assets/widget.js"></script>
+
+  <!-- Homepage Booking Modal -->
+  <div class="booking-drawer-overlay" id="bookingDrawerOverlay" onclick="closeBookingDrawer()"></div>
+  <div class="booking-drawer" id="bookingDrawer">
+    <button class="drawer-close" style="position: absolute; top: 1.25rem; right: 1.25rem; z-index: 50;"
+      onclick="closeBookingDrawer()" aria-label="Close">&times;</button>
+    <div id="tour-booking-container"></div>
+  </div>
+
+  <script src="assets/booking/tours-data.js"></script>
+  <script src="assets/booking/tour-utils.js"></script>
+  <script src="assets/booking/tour-booking.js"></script>
   <script>
-    Koalendarinit');
+    function openHomeBooking(tourId) {
+      if (!window.TOURS_DATA || !window.TOURS_DATA[tourId]) {
+        console.error('Tour data not found for', tourId);
+        return;
+      }
+
+      const data = window.TOURS_DATA[tourId];
+      const config = {
+        tourId: tourId,
+        tourName: data.name,
+        basePrice: data.price,
+        formAction: data.formAction,
+        guideImage: data.guideImage,
+        guideName: data.guideName,
+        joinDiscount: data.joinDiscount || 0
+      };
+
+      // Clear old widget completely and re-instantiate
+      const container = document.getElementById('tour-booking-container');
+      container.innerHTML = '';
+
+      window.homeBooking = new TourBooking({ ...config, containerId: 'tour-booking-container' });
+      window.openBookingDrawer();
+    }
   </script>
 </body>
 
